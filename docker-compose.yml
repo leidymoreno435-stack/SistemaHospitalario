@@ -1,0 +1,35 @@
+services:
+  server:
+    build: ./server
+    container_name: servidor-desarrollo
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+  client:
+    build: ./client
+    container_name: cliente-desarrollo
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - server
+  postgres:
+    image: postgres:16
+    container_name: postgres-hospital
+    restart: always
+    environment:
+      POSTGRES_DB: SistemaHospitalario
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Admi123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
+
