@@ -1,4 +1,4 @@
-export default class usuarioQueryUsesCase {
+export default class rolQueryUsesCase {
     constructor(adaptadorBDSalida) {
         this.adaptadorBDSalida = adaptadorBDSalida;
     }

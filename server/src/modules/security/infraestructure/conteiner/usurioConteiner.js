@@ -2,10 +2,9 @@ import usuarioQueryOutput from "../../../../application/ports/output/query/usuar
 import usuarioCommandOutput from "../../../../application/ports/output/command/usuarioCommandOutput.js";
 import UsuarioMYSQLCommandAdapter from "../adapter-output/command/UsuarioMYSQLCommandAdapter.js";
 import UsuarioMYSQLQueryAdaptador from "../adapter-output/query/UsuarioMYSQLQueryAdapter.js";
-import UCommandCaso from "../../aplicacion/uses-cases/command/UsuarioCommandUsesCase.js";
-import UQueryCaso from "../../aplicacion/uses-cases/query/UsuarioQueryUsesCase.js";
-import UsuarioController from "../adaptador-entrada/UsuarioControlador.js";
-
+import UCommandCaso from "../../../aplication/uses-cases/command/UsuarioCommandUsesCase.js";
+import UQueryCaso from "../../../aplication/uses-cases/query/usuarioQueryUsesCase.js";
+import UsuarioController from "../adapter-input/usuarioController.js";
 
 const usuarioCommandPgsBDSalida = new UsuarioMYSQLCommandAdaptador();
 const usuarioQueryPgsBDSalida = new UsuarioMYSQLQueryAdaptador();
