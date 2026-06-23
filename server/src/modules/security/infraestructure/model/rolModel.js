@@ -15,10 +15,6 @@ const rolModel = sequelize.define('rol', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    id_rol: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
     delete_at: {
         type: DataTypes.DATE,
         allowNull: true
