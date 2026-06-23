@@ -1,11 +1,11 @@
-export default class usuarioCommandOutput {
-    create(usuario) {
+export default class rolCommandOutput {
+    create(rol) {
         throw new Error("Method not implemented");
     }
-    update(usuario) {
+    update(rol) {
         throw new Error("Method not implemented");
     }
-    delete(usuario) {
+    delete(rol) {
         throw new Error("Method not implemented");
     }
 }
