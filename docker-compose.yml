@@ -3,7 +3,7 @@ services:
     build: ./server
     container_name: servidor-desarrollo
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - ./server:/app
       - /app/node_modules
