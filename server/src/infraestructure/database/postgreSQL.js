@@ -10,10 +10,5 @@ const sequelize = new Sequelize(
         logging: false
     }
 );
-/*sequelize.authenticate()
-    .then(() => {
-        console.log('Conexión creada');
-    }).catch((err) => {
-        console.error('Error al crear la conexión:', err);
-    });*/
+
 export default sequelize;

@@ -1,7 +1,7 @@
 services:
   server:
     build: ./server
-    container_name: servidor-desarrollo
+    container_name: server
     ports:
       - "3001:3000"
     volumes:
@@ -10,7 +10,7 @@ services:
 
   client:
     build: ./client
-    container_name: cliente-desarrollo
+    container_name: client
     ports:
       - "5173:5173"
     volumes:
