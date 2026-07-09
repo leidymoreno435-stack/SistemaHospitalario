@@ -6,15 +6,15 @@
     "author": "",
     "license": "ISC",
     "scripts": {
-        "dev": "nodemon -L src/server.js"
+        "dev": "nodemon -L src/infraestructure/server.js"
     },
-
     "type": "module",
     "dependencies": {
         "bcrypt": "^6.0.0",
         "cors": "^2.8.6",
         "dotenv": "^17.4.2",
         "express": "^5.2.1",
+        "express-validator": "^7.3.2",
         "jsonwebtoken": "^9.0.3",
         "pg": "^8.22.0",
         "pg-hstore": "^2.3.4",

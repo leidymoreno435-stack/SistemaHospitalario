@@ -1,0 +1,43 @@
+<div class="login-container">
+  <div class="glass-panel login-box">
+    <div class="login-header">
+      <h2>🩺 Sistema Hospitalario</h2>
+      <p>Inicia sesión para continuar</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="input-group">
+        <label class="input-label" for="username">Usuario</label>
+        <input 
+          type="text" 
+          id="username" 
+          class="input-field" 
+          [(ngModel)]="credentials.username" 
+          name="username" 
+          required 
+          placeholder="Ej: admin">
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="password">Contraseña</label>
+        <input 
+          type="password" 
+          id="password" 
+          class="input-field" 
+          [(ngModel)]="credentials.password" 
+          name="password" 
+          required 
+          placeholder="••••••••">
+      </div>
+
+      <div *ngIf="errorMessage" class="error-msg">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-primary w-100" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Ingresar</span>
+        <span *ngIf="isLoading">Cargando...</span>
+      </button>
+    </form>
+  </div>
+</div>

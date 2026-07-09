@@ -1,10 +1,11 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../Postgresql.js';
+import sequelize from '../../../../infraestructure/database/postgreSQL.js';
 
 const UsuarioModel = sequelize.define('usuario', {
     id_usuario: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false
     },
     username: {

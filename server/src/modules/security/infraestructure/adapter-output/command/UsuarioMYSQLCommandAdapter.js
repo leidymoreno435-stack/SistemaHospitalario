@@ -1,10 +1,10 @@
-import usuarioCommandOutput from "../../../../application/ports/output/command/usuarioCommandOutput.js";
-import usuarioModel, { sequelize } from "../model/usuarioModel.js";
+import usuarioCommandOutput from "../../../application/ports/output/command/usuarioCommandOutput.js";
+import usuarioModel, { sequelize } from "../../model/usuarioModel.js";
 import { Transaction } from 'sequelize';
 export default class UsuarioMYSQLCommandAdapter extends usuarioCommandOutput {
 
     /*Atomicidad*/
-    create = async(usuario) => {
+    create = async (usuario) => {
         const username = await usuario.getUsername();
         //consistencia
         if (username === "") {
@@ -15,19 +15,22 @@ export default class UsuarioMYSQLCommandAdapter extends usuarioCommandOutput {
         });
 
         try {
-
             await usuarioModel.create({
-                username: username
+                username: usuario.getUsername(),
+                password_hash: usuario.getPassword_hash(),
+                id_rol: usuario.getId_rol(),
+                activo: usuario.getActivo(),
+                fecha_creacion: usuario.getFecha_creacion()
             }, { transaction });
 
-            (await transaction).commit();
+            await transaction.commit();
             console.log("Se guardó usando el adaptador SQL");
             return {
                 estado: "ok",
                 resultado: "Se guardó con exito en la BD: " + username
             };
         } catch (e) {
-            (await transaction).rollback();
+            await transaction.rollback();
             return {
                 estado: "error",
                 resultado: "ocurrio un error: " + e
@@ -35,7 +38,7 @@ export default class UsuarioMYSQLCommandAdapter extends usuarioCommandOutput {
         }
     }
 
-    delete = async(usuario) => {
+    delete = async (usuario) => {
         const id = await usuario.getId_usuario();
         const transaction = await sequelize.transaction({
             isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
@@ -48,14 +51,14 @@ export default class UsuarioMYSQLCommandAdapter extends usuarioCommandOutput {
             }
             const usuarioFound = await usuarioModel.findByPk(id, { transaction });
             await usuarioFound.destroy({ transaction });
-            (await transaction).commit();
+            await transaction.commit();
             console.log("Se eliminó usando el adaptador SQL");
             return {
                 estado: "ok",
                 resultado: "Se eliminó con exito en la BD: " + id
             };
         } catch (e) {
-            (await transaction).rollback();
+            await transaction.rollback();
             return {
                 estado: "error",
                 resultado: "ocurrio un error: " + e

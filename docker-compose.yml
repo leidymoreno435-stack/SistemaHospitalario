@@ -7,6 +7,11 @@ services:
     volumes:
       - ./server:/app
       - /app/node_modules
+    env_file:
+      - ./server/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   client:
     build: ./client
@@ -25,11 +30,17 @@ services:
     environment:
       POSTGRES_DB: SistemaHospitalario
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Admi123
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-Admi123}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d SistemaHospitalario"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     ports:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./SisHospital.sql:/docker-entrypoint-initdb.d/init.sql
 volumes:
   postgres_data:
 

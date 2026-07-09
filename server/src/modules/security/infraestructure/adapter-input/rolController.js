@@ -1,7 +1,5 @@
-import { rolDTO } from "../../../aplicacion/dto/rolDTO.js";
-import rolInputPort from "../../../aplicacion/puertos/input/rolInputPort.js";
-import { Buffer } from "buffer";
-import zlib from "zlib";
+import rolDTO from "../../application/DTO/rolDTO.js";
+import rolInputPort from "../../application/ports/input/rolInputport.js";
 
 export default class rolController extends rolInputPort {
     constructor(rolCommandUsesCase, rolQueryUsesCase) {

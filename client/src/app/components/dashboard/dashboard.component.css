@@ -1,0 +1,78 @@
+.dashboard-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.nav-brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+}
+
+.stats-card {
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.stats-card h3 {
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.module-card {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.module-card h4 {
+  font-size: 1.1rem;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.module-card p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  flex: 1;
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}

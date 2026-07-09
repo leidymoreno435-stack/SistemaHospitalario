@@ -13,9 +13,6 @@ export default class usuarioDTO {
     getUsername() {
         return this.username;
     }
-    getPassword_hash() {
-        return this.password_hash;
-    }
     getId_rol() {
         return this.id_rol;
     }

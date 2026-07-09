@@ -1,7 +1,5 @@
-import { usuarioDTO } from "../../aplicacion/dto/usuarioDTO.js";
-import usuarioInputPort from "../../../aplicacion/puertos/input/usuarioInputPort.js";
-import { Buffer } from "buffer";
-import zlib from "zlib";
+import usuarioDTO from "../../application/DTO/usuarioDTO.js";
+import usuarioInputPort from "../../application/ports/input/usuarioInput.js";
 
 export default class usuarioController extends usuarioInputPort {
     constructor(usuarioCommandUsesCase, usuarioQueryUsesCase) {

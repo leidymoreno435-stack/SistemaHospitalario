@@ -1,4 +1,4 @@
-import usuario from "../../domain/usuario.js";
+import usuario from "../../domain/entities/usuario.js";
 
 export default class usuarioCommandUsesCase {
     constructor(adaptadorBDSalida) {
@@ -6,9 +6,15 @@ export default class usuarioCommandUsesCase {
     }
 
     async create(usuarioDTO) {
-        const id = Date.now().toString();
-        const persona = new usuario(id, await usuarioDTO.getNombre());
-        const result = await this.adaptadorBDSalida.guardar(persona);
+        const persona = new usuario(
+            null, 
+            usuarioDTO.getUsername(), 
+            usuarioDTO.password_hash, 
+            usuarioDTO.getId_rol(), 
+            usuarioDTO.getActivo(), 
+            usuarioDTO.getFecha_creacion() || new Date()
+        );
+        const result = await this.adaptadorBDSalida.create(persona);
         console.log("Ingreso al caso de uso");
         return {
             estado: "ok",
@@ -17,9 +23,9 @@ export default class usuarioCommandUsesCase {
     }
 
     async delete(usuarioDTO) {
-        const id = await usuarioDTO.getId();
-        const persona = new usuario(id, null);
-        const result = await this.adaptadorBDSalida.eliminar(persona);
+        const id = usuarioDTO.getId_usuario();
+        const persona = new usuario(id, null, null, null, null, null);
+        const result = await this.adaptadorBDSalida.delete(persona);
         console.log("Ingreso al caso de uso");
         return {
             estado: "ok",

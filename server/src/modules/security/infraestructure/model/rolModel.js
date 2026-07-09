@@ -1,10 +1,11 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../Postgresql.js';
+import sequelize from '../../../../infraestructure/database/postgreSQL.js';
 
 const rolModel = sequelize.define('rol', {
     id_rol: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false
     },
     nombre: {

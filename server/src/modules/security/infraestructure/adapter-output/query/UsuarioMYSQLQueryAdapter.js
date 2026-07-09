@@ -1,5 +1,5 @@
 import usuarioQueryOutput from "../../../../application/ports/output/query/usuarioQueryOutput.js";
-import usuarioFilter from "../../../../application/ports/input/query/usuarioFilter.js";
+import usuarioFilter from "../../../../domain/filters/usuarioFilter.js";
 import usuarioModel, { sequelize } from "../model/usuarioModel.js";
 import { Transaction } from 'sequelize';
 
@@ -7,7 +7,7 @@ export default class UsuarioMYSQLQueryAdaptador extends usuarioQueryOutput {
     read = async(filter = []) => {
 
         console.log("Listando la tabla usuarios...");
-        const where = [];
+        const where = {};
 
         filter.forEach(esp => {
             if (esp instanceof UsuarioFilter) {
@@ -19,14 +19,14 @@ export default class UsuarioMYSQLQueryAdaptador extends usuarioQueryOutput {
         });
         try {
             const usuarios = await usuarioModel.findAll({ where, transaction });
-            (await transaction).commit();
+            await transaction.commit();
             console.log("Se listó usando el adaptador SQL");
             return {
                 estado: "ok",
                 resultado: usuarios
             };
         } catch (e) {
-            (await transaction).rollback();
+            await transaction.rollback();
             return {
                 estado: "error",
                 resultado: "ocurrio un error: " + e

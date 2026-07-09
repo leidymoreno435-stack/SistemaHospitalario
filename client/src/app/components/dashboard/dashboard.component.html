@@ -1,0 +1,42 @@
+<div class="dashboard-container">
+  <nav class="glass-panel navbar">
+    <div class="nav-brand">🩺 Sistema Hospitalario</div>
+    <div class="nav-user" *ngIf="usuario">
+      <span>Bienvenido, {{ usuario.username }} (Rol: {{ usuario.id_rol }})</span>
+      <button class="btn-danger" (click)="logout()">Cerrar Sesión</button>
+    </div>
+  </nav>
+
+  <main class="dashboard-content">
+    <div class="glass-panel stats-card">
+      <h3>Resumen del Sistema</h3>
+      <p>Aquí se visualizarán las estadísticas principales, pacientes recientes y consultas pendientes.</p>
+    </div>
+
+    <div class="modules-grid">
+      <div class="glass-panel module-card">
+        <h4>👥 Pacientes</h4>
+        <p>Gestión del directorio y registros médicos de pacientes.</p>
+        <button class="btn-primary mt-2">Ir a Pacientes</button>
+      </div>
+
+      <div class="glass-panel module-card">
+        <h4>👨‍⚕️ Personal</h4>
+        <p>Directorio de médicos, enfermeras y administradores.</p>
+        <button class="btn-primary mt-2">Ir a Personal</button>
+      </div>
+
+      <div class="glass-panel module-card">
+        <h4>📅 Consultas</h4>
+        <p>Programación y seguimiento de citas clínicas.</p>
+        <button class="btn-primary mt-2">Ir a Consultas</button>
+      </div>
+
+      <div class="glass-panel module-card">
+        <h4>💰 Facturación</h4>
+        <p>Emisión y control de facturas y pagos.</p>
+        <button class="btn-primary mt-2">Ir a Facturación</button>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,4 +1,4 @@
-import rol from "../../domain/rol.js";
+import rol from "../../domain/entities/rol.js";
 
 export default class rolCommandUsesCase {
     constructor(adaptadorBDSalida) {
@@ -6,9 +6,8 @@ export default class rolCommandUsesCase {
     }
 
     async create(rolDTO) {
-        const id = Date.now().toString();
-        const persona = new rol(id, await rolDTO.getNombre());
-        const result = await this.adaptadorBDSalida.guardar(persona);
+        const persona = new rol(null, rolDTO.getNombre(), rolDTO.getDescripcion());
+        const result = await this.adaptadorBDSalida.create(persona);
         console.log("Ingreso al caso de uso");
         return {
             estado: "ok",
@@ -17,8 +16,8 @@ export default class rolCommandUsesCase {
     }
 
     async delete(rolDTO) {
-        const id = await rolDTO.getId();
-        const persona = new rol(id, null);
+        const id = rolDTO.getId();
+        const persona = new rol(id, null, null);
         const result = await this.adaptadorBDSalida.delete(persona);
         console.log("Ingreso al caso de uso");
         return {

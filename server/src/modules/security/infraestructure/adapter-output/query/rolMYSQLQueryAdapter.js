@@ -1,5 +1,5 @@
 import rolQueryOutput from "../../../../application/ports/output/query/rolQueryOutput.js";
-import rolFilter from "../../../../application/ports/input/query/rolFilter.js";
+import rolFilter from "../../../../domain/filters/rolFilter.js";
 import rolModel, { sequelize } from "../model/rolModel.js";
 import { Transaction } from 'sequelize';
 
@@ -7,7 +7,7 @@ export default class rolMYSQLQueryAdapter extends rolQueryOutput {
     read = async(filter = []) => {
 
         console.log("Listando la tabla rol...");
-        const where = [];
+        const where = {};
 
         filter.forEach(esp => {
             if (esp instanceof rolFilter) {
@@ -19,14 +19,14 @@ export default class rolMYSQLQueryAdapter extends rolQueryOutput {
         });
         try {
             const rol = await rolModel.findAll({ where, transaction });
-            (await transaction).commit();
+            await transaction.commit();
             console.log("Se listó usando el adaptador SQL");
             return {
                 estado: "ok",
                 resultado: rol
             };
         } catch (e) {
-            (await transaction).rollback();
+            await transaction.rollback();
             return {
                 estado: "error",
                 resultado: "ocurrio un error: " + e
