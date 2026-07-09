@@ -1,8 +1,8 @@
 import clinicalModel from '../model/clinicalModel.js';
-import patientModel from '../../patients/infraestructure/model/patientModel.js';
-import personalModel from '../../personal/infraestructure/model/personalModel.js';
+import patientModel from '../../../patients/infraestructure/model/patientModel.js';
+import personalModel from '../../../personal/infraestructure/model/personalModel.js';
 
-export const getConsultations = async (req, res, next) => {
+export const getConsultations = async(req, res, next) => {
     try {
         const data = await clinicalModel.findAll({
             include: [
@@ -16,7 +16,7 @@ export const getConsultations = async (req, res, next) => {
     }
 };
 
-export const getConsultationById = async (req, res, next) => {
+export const getConsultationById = async(req, res, next) => {
     try {
         const data = await clinicalModel.findByPk(req.params.id, {
             include: [patientModel, personalModel]
@@ -28,7 +28,7 @@ export const getConsultationById = async (req, res, next) => {
     }
 };
 
-export const createConsultation = async (req, res, next) => {
+export const createConsultation = async(req, res, next) => {
     try {
         const newData = await clinicalModel.create(req.body);
         res.status(201).json({ estado: 'ok', data: newData });
@@ -37,7 +37,7 @@ export const createConsultation = async (req, res, next) => {
     }
 };
 
-export const updateConsultation = async (req, res, next) => {
+export const updateConsultation = async(req, res, next) => {
     try {
         const updated = await clinicalModel.update(req.body, { where: { id_consulta: req.params.id } });
         if (updated[0] === 0) return res.status(404).json({ estado: 'error', resultado: 'Consulta no encontrada' });
@@ -47,7 +47,7 @@ export const updateConsultation = async (req, res, next) => {
     }
 };
 
-export const deleteConsultation = async (req, res, next) => {
+export const deleteConsultation = async(req, res, next) => {
     try {
         const deleted = await clinicalModel.destroy({ where: { id_consulta: req.params.id } });
         if (!deleted) return res.status(404).json({ estado: 'error', resultado: 'Consulta no encontrada' });

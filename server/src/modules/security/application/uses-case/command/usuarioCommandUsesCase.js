@@ -1,4 +1,4 @@
-import usuario from "../../domain/entities/usuario.js";
+import usuario from "../../../domain/entities/usuario.js";
 
 export default class usuarioCommandUsesCase {
     constructor(adaptadorBDSalida) {
@@ -7,11 +7,11 @@ export default class usuarioCommandUsesCase {
 
     async create(usuarioDTO) {
         const persona = new usuario(
-            null, 
-            usuarioDTO.getUsername(), 
-            usuarioDTO.password_hash, 
-            usuarioDTO.getId_rol(), 
-            usuarioDTO.getActivo(), 
+            null,
+            usuarioDTO.getUsername(),
+            usuarioDTO.password_hash,
+            usuarioDTO.getId_rol(),
+            usuarioDTO.getActivo(),
             usuarioDTO.getFecha_creacion() || new Date()
         );
         const result = await this.adaptadorBDSalida.create(persona);

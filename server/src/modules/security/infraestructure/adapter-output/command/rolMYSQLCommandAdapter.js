@@ -1,4 +1,4 @@
-import rolCommandOutput from "../../../../application/ports/output/command/rolCommandOutput.js";
+import rolCommandOutput from "../../../application/ports/output/command/rolCommandOutput.js";
 import rolModel, { sequelize } from "../../model/rolModel.js";
 import { Transaction } from 'sequelize';
 export default class rolMYSQLCommandAdapter extends rolCommandOutput {

@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../../../infraestructure/database/postgreSQL.js';
-import patientModel from '../../patients/infraestructure/model/patientModel.js';
-import personalModel from '../../personal/infraestructure/model/personalModel.js';
+import patientModel from '../../../patients/infraestructure/model/patientModel.js';
+import personalModel from '../../../personal/infraestructure/model/personalModel.js';
 
 const clinicalModel = sequelize.define('consulta', {
     id_consulta: {

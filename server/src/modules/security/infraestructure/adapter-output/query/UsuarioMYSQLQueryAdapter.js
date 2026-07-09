@@ -1,6 +1,6 @@
-import usuarioQueryOutput from "../../../../application/ports/output/query/usuarioQueryOutput.js";
-import usuarioFilter from "../../../../domain/filters/usuarioFilter.js";
-import usuarioModel, { sequelize } from "../model/usuarioModel.js";
+import usuarioQueryOutput from "../../../application/ports/output/query/usuarioQueryOutput.js";
+import usuarioFilter from "../../../domain/filters/usuarioFilter.js";
+import usuarioModel from "../../model/usuarioModel.js";
 import { Transaction } from 'sequelize';
 
 export default class UsuarioMYSQLQueryAdaptador extends usuarioQueryOutput {

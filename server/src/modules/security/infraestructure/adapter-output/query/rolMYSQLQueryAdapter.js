@@ -1,6 +1,6 @@
-import rolQueryOutput from "../../../../application/ports/output/query/rolQueryOutput.js";
-import rolFilter from "../../../../domain/filters/rolFilter.js";
-import rolModel, { sequelize } from "../model/rolModel.js";
+import rolQueryOutput from "../../../application/ports/output/query/rolQueryOutput.js";
+import rolFilter from "../../../domain/filters/rolFilter.js";
+import rolModel, { sequelize } from "../../model/rolModel.js";
 import { Transaction } from 'sequelize';
 
 export default class rolMYSQLQueryAdapter extends rolQueryOutput {

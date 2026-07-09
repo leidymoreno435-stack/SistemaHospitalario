@@ -1,4 +1,4 @@
-import rol from "../../domain/entities/rol.js";
+import rol from "../../../domain/entities/rol.js";
 
 export default class rolCommandUsesCase {
     constructor(adaptadorBDSalida) {

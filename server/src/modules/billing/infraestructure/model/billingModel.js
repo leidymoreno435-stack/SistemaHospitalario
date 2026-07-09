@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../../../infraestructure/database/postgreSQL.js';
-import patientModel from '../../patients/infraestructure/model/patientModel.js';
+import patientModel from '../../../patients/infraestructure/model/patientModel.js';
 
 const billingModel = sequelize.define('factura', {
     id_factura: {
