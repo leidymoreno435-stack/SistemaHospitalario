@@ -1,0 +1,94 @@
+<div class="container mt-4">
+  <div class="card shadow border-0">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">{{ isEditing ? 'Editar Signos Vitales' : 'Registrar Signos Vitales' }}</h5>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="guardar()">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Paciente</label>
+            <input type="text" class="form-control" formControlName="id_paciente" placeholder="Buscar paciente...">
+            <small *ngIf="form.controls.id_paciente?.invalid && form.controls.id_paciente?.touched" class="text-danger">
+              El paciente es obligatorio
+            </small>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Fecha y Hora</label>
+            <input type="datetime-local" class="form-control" formControlName="fecha_registro">
+            <small *ngIf="form.controls.fecha_registro?.invalid && form.controls.fecha_registro?.touched" class="text-danger">
+              La fecha es obligatoria
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-3">
+            <label class="form-label">Presión Arterial (mmHg)</label>
+            <input type="text" class="form-control" formControlName="presion_arterial" placeholder="120/80">
+            <small *ngIf="form.controls.presion_arterial?.invalid && form.controls.presion_arterial?.touched" class="text-danger">
+              Formato: 120/80
+            </small>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Temperatura (°C)</label>
+            <input type="number" step="0.1" class="form-control" formControlName="temperatura" placeholder="36.5">
+            <small *ngIf="form.controls.temperatura?.invalid && form.controls.temperatura?.touched" class="text-danger">
+              Entre 30 y 45°C
+            </small>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Pulso (lpm)</label>
+            <input type="number" class="form-control" formControlName="pulso" placeholder="72">
+            <small *ngIf="form.controls.pulso?.invalid && form.controls.pulso?.touched" class="text-danger">
+              Entre 40 y 200
+            </small>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Saturación O₂ (%)</label>
+            <input type="number" class="form-control" formControlName="saturacion_oxigeno" placeholder="98">
+            <small *ngIf="form.controls.saturacion_oxigeno?.invalid && form.controls.saturacion_oxigeno?.touched" class="text-danger">
+              Entre 70 y 100%
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-3">
+            <label class="form-label">Frecuencia Respiratoria (rpm)</label>
+            <input type="number" class="form-control" formControlName="frecuencia_respiratoria" placeholder="16">
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Peso (kg)</label>
+            <input type="number" step="0.1" class="form-control" formControlName="peso" placeholder="70">
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Talla (cm)</label>
+            <input type="number" class="form-control" formControlName="talla" placeholder="170">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Observaciones</label>
+          <textarea class="form-control" rows="3" formControlName="observaciones" placeholder="Observaciones adicionales..."></textarea>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+            <i class="bi bi-check-circle"></i> Guardar
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="volver()">
+            <i class="bi bi-arrow-left"></i> Volver
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

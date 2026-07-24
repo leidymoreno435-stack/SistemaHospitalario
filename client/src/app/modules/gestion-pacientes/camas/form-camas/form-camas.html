@@ -1,0 +1,49 @@
+<div class="card shadow border-0">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">{{ isEditing ? 'Editar Cama' : 'Nueva Cama' }}</h5>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Habitación</label>
+                    <select class="form-control" formControlName="id_habitacion">
+                        <option value="">Seleccionar habitación...</option>
+                        <option *ngFor="let habitacion of habitaciones" [value]="habitacion.id_habitacion">
+                            {{ habitacion.codigo }} - {{ habitacion.tipo }}
+                        </option>
+                    </select>
+                    <small *ngIf="form.controls.id_habitacion?.invalid && form.controls.id_habitacion?.touched" class="text-danger">
+                        La habitación es obligatoria
+                    </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Número de Cama</label>
+                    <input type="number" class="form-control" formControlName="numero" />
+                    <small *ngIf="form.controls.numero?.invalid && form.controls.numero?.touched" class="text-danger">
+                        El número es obligatorio
+                    </small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Estado</label>
+                    <select class="form-control" formControlName="estado">
+                        <option value="Disponible">Disponible</option>
+                        <option value="Ocupada">Ocupada</option>
+                        <option value="En mantenimiento">En mantenimiento</option>
+                    </select>
+                    <small *ngIf="form.controls.estado?.invalid && form.controls.estado?.touched" class="text-danger">
+                        El estado es obligatorio
+                    </small>
+                </div>
+            </div>
+
+            <button class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+            <button class="btn btn-secondary ms-2" (click)="volver()">Volver</button>
+        </form>
+    </div>
+</div>

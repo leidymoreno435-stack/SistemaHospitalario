@@ -1,0 +1,91 @@
+<div class="card shadow border-0">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">{{ isEditing ? 'Editar Ingreso Hospitalario' : 'Nuevo Ingreso Hospitalario' }}</h5>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Paciente</label>
+                    <select class="form-control" formControlName="id_paciente">
+                        <option value="">Seleccionar paciente...</option>
+                        <option *ngFor="let p of pacientes" [value]="p.id_paciente">
+                            {{ p.nombres }} {{ p.apellidos }} ({{ p.identificacion }})
+                        </option>
+                    </select>
+                    <small *ngIf="form.controls.id_paciente?.invalid && form.controls.id_paciente?.touched" class="text-danger">
+                        El paciente es obligatorio
+                    </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Cama</label>
+                    <select class="form-control" formControlName="id_cama">
+                        <option value="">Seleccionar cama...</option>
+                        <option *ngFor="let c of camas" [value]="c.id_cama">
+                            Cama {{ c.numero }} (Hab. {{ c.numero_habitacion || 'N/A' }})
+                        </option>
+                    </select>
+                    <small *ngIf="form.controls.id_cama?.invalid && form.controls.id_cama?.touched" class="text-danger">
+                        La cama es obligatoria
+                    </small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Médico Responsable</label>
+                    <select class="form-control" formControlName="id_medico_responsable">
+                        <option value="">Seleccionar médico...</option>
+                        <option *ngFor="let m of medicos" [value]="m.id_personal">
+                            {{ m.nombres }} {{ m.apellidos }}
+                        </option>
+                    </select>
+                    <small *ngIf="form.controls.id_medico_responsable?.invalid && form.controls.id_medico_responsable?.touched" class="text-danger">
+                        El médico responsable es obligatorio
+                    </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Fecha y Hora de Ingreso</label>
+                    <input type="datetime-local" class="form-control" formControlName="fecha_ingreso" />
+                    <small *ngIf="form.controls.fecha_ingreso?.invalid && form.controls.fecha_ingreso?.touched" class="text-danger">
+                        La fecha de ingreso es obligatoria
+                    </small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Fecha y Hora de Alta</label>
+                    <input type="datetime-local" class="form-control" formControlName="fecha_alta" />
+                    <small class="text-muted">Opcional - dejar vacío si aún está hospitalizado</small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Estado</label>
+                    <select class="form-control" formControlName="estado">
+                        <option value="activo">Activo</option>
+                        <option value="alta">Alta</option>
+                        <option value="transferido">Transferido</option>
+                    </select>
+                    <small *ngIf="form.controls.estado?.invalid && form.controls.estado?.touched" class="text-danger">
+                        El estado es obligatorio
+                    </small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Motivo de Ingreso</label>
+                <textarea class="form-control" formControlName="motivo_ingreso" rows="3"></textarea>
+                <small *ngIf="form.controls.motivo_ingreso?.invalid && form.controls.motivo_ingreso?.touched" class="text-danger">
+                    El motivo de ingreso es obligatorio
+                </small>
+            </div>
+
+            <button class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+            <button class="btn btn-secondary ms-2" (click)="volver()">Volver</button>
+        </form>
+    </div>
+</div>

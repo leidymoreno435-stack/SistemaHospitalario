@@ -1,0 +1,18 @@
+.examen-shell {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.examen-shell h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.examen-shell p {
+  margin: 0;
+  color: #4b5563;
+}

@@ -1,0 +1,55 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Lista de Habitaciones</h2>
+        <div>
+            <a routerLink="/home" class="btn btn-secondary me-2">
+                <i class="bi bi-house"></i> Regresar al Home
+            </a>
+            <a routerLink="/nuevo-habitacion" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Agregar Habitación
+            </a>
+        </div>
+    </div>
+
+    <div *ngIf="habitaciones.length > 0; else sinHabitaciones" class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Código</th>
+                    <th>Piso</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let habitacion of habitaciones">
+                    <td>{{ habitacion.id_habitacion }}</td>
+                    <td>{{ habitacion.codigo }}</td>
+                    <td>{{ habitacion.piso }}</td>
+                    <td>
+                        <span class="badge" [ngClass]="habitacion.tipo === 'Individual' ? 'bg-primary' : habitacion.tipo === 'Doble' ? 'bg-info' : 'bg-secondary'">
+                            {{ habitacion.tipo }}
+                        </span>
+                    </td>
+                    <td>{{ habitacion.descripcion }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="editarHabitacion(habitacion.id_habitacion)">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                        <button class="btn btn-sm btn-danger" (click)="eliminarHabitacion(habitacion.id_habitacion)">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <ng-template #sinHabitaciones>
+        <div class="alert alert-info mt-3" role="alert">
+            <i class="bi bi-info-circle"></i> No hay habitaciones registradas.
+        </div>
+    </ng-template>
+</div>

@@ -1,0 +1,24 @@
+<div class="container">
+    <h2>Quirófanos</h2>
+    <table class="table is-fullwidth is-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Ubicación</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let q of quirofanos">
+                <td>{{ q.id_quirofano || q.id }}</td>
+                <td>{{ q.nombre || q.name }}</td>
+                <td>{{ q.ubicacion || q.location || '-' }}</td>
+                <td>{{ q.estado || q.status || '-' }}</td>
+            </tr>
+            <tr *ngIf="quirofanos.length === 0">
+                <td colspan="4">No hay quirofanos disponibles.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

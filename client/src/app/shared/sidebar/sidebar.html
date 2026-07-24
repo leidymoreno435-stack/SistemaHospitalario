@@ -1,0 +1,193 @@
+<aside class="sidebar" [class.collapsed]="collapsed">
+
+    <!-- Sidebar header -->
+    <header class="sidebar-header">
+        <a href="#" class="header-logo">
+            <img src="/LogoClinica.png" alt="Logo" />
+        </a>
+        <button class="sidebar-toggler" (click)="collapsed = !collapsed">
+
+            <span class="material-symbols-outlined icon"></span>
+
+            <span class="material-symbols-outlined">{{ collapsed ? 'chevron_right' : 'chevron_left' }}</span>
+        </button>
+    </header>
+
+
+    <!-- Sidebar content -->
+    <nav class="sidebar-nav">
+
+        <!-- ================= TOP NAV ================= -->
+        <ul class="nav-list primary-nav">
+
+            <!-- Inicio -->
+            <li class="nav-item">
+                <a routerLink="/home" routerLinkActive="active" class="nav-link">
+                    <span class="material-symbols-outlined icon">house</span>
+                    <span class="nav-label">Inicio</span>
+                </a>
+            </li>
+
+            <!-- Pacientes con submenu -->
+            <li class="nav-item" *ngIf="hasRole('administrador','medico','recepcionista')">
+                <a (click)="togglePacientes()" class="nav-link" [class.active]="isPacientesOpen">
+                    <span class="material-symbols-outlined icon">person</span>
+                    <span class="nav-label">Pacientes</span>
+                    <span class="dropdown-icon material-symbols-outlined" [class.rotate]="isPacientesOpen">
+                        keyboard_arrow_down</span>
+                </a>
+
+
+                <ul class="dropdown-menu" [class.show]="isPacientesOpen">
+                    <li class="nav-item" *ngIf="hasRole('recepcionista','administrador')">
+                        <a routerLink="/pacientes" class="nav-link">
+                            <i class='bx bx-file'></i>
+                            <span class="nav-label">Lista pacientes</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item" *ngIf="hasRole('medico','administrador')">
+                        <a routerLink="/historial" class="nav-link">
+                            <i class='bx bx-file'></i>
+                            <span class="nav-label">Historias clínicas</span>
+                        </a>
+                    </li>
+
+
+
+
+                    <!-- Paciente -->
+                    <li class="nav-item" *ngIf="hasRole('paciente')">
+                        <a routerLink="/nuevo-pacientes" class="nav-link">
+                            <i class='bxr bx-user-circle'></i>
+                            <span class="nav-label">Mi Perfil</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" *ngIf="hasRole('administrador','enfermero')">
+                        <a routerLink="/habitacion" class="nav-link">
+                            <i class='bxr bx-building-house'></i>
+                            <span class="nav-label">Habitaciones</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item" *ngIf="hasRole('administrador','enfermero')">
+                        <a routerLink="/camas" class="nav-link">
+                            <i class='bxr bx-bed'></i>
+                            <span class="nav-label">Camas</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <!-- Bottom -->
+            <!-- Consultas medicas -->
+            <li class="nav-item" *ngIf="hasRole('medico','administrador')">
+                <a (click)="toggleConsultas()" class="nav-link" [class.active]="isConsultasOpen">
+                    <span class="material-symbols-outlined icon">person</span>
+                    <span class="nav-label">Consultas Medicas</span>
+                    <span class="dropdown-icon material-symbols-outlined" [class.rotate]="isConsultasOpen">
+                        keyboard_arrow_down</span>
+                </a>
+
+                <ul class="dropdown-menu" [class.show]="isConsultasOpen">
+                    <!-- Admin / médico / enfermero -->
+                    <li class="nav-item" *ngIf="hasRole('administrador','medico','enfermero')">
+                        <a routerLink="/medicamentos" class="nav-link">
+                            <i class='bxr bx-pharmacy'></i>
+                            <span class="nav-label">Medicamentos</span>
+                        </a>
+
+                    </li>
+                    <li class="nav-item" *ngIf="hasRole('administrador','enfermero')">
+                        <a routerLink="/quirofano" class="nav-link">
+                            <span class="material-symbols-outlined icon">syringe</span>
+                            <span class="nav-label">Quirofano</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" *ngIf="hasRole('administrador','enfermero')">
+                        <a routerLink="/cirugia" class="nav-link">
+                            <i class='bxr bx-pharmacy'></i>
+                            <span class="nav-label">Cirugia</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" *ngIf="hasRole('medico','administrador')">
+                        <a routerLink="/consulta" class="nav-link">
+                            <i class='bx bx-test-tube'></i>
+                            <span class="nav-label">Consultas</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-iteam" *ngIf="hasRole('medico','administrador')">
+                        <a routerLink="/solicitud-examenes" class="nav-link">
+                            <i class='bx bx-test-tube'></i>
+                            <span class="nav-label">Solicitud de exámenes</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- Personal -->
+            <li class="nav-item" *ngIf="hasRole('administrador')">
+                <a (click)="togglePersonal()" class="nav-link" [class.active]="isPersonalOpen">
+                    <span class="menu-icon bx bx-user-voice"></span>
+                    <span class="nav-label">Personal Médico</span>
+                    <span class="dropdown-icon material-symbols-outlined" [class.rotate]="isPersonalOpen">
+                        keyboard_arrow_down</span>
+                </a>
+                <ul class="dropdown-menu" [class.show]="isPersonalOpen">
+                    <li class="nav-item">
+                        <a routerLink="/personal" class="nav-link">
+                            <span class="nav-label">Personal</span>
+
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a routerLink="/consultorio" class="nav-link">
+                            <span class="nav-label">Consultorios</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a routerLink="/especialidades" class="nav-link">
+                            <span class="nav-label">Especialidades</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- Facturacion con submenu -->
+
+            <!-- Auth -->
+            <li class="nav-item" *ngIf="hasRole('administrador')">
+                <a routerLink="/usuarios" class="nav-link">
+                    <span class="material-symbols-outlined icon">user_attributes</span>
+                    <span class="nav-label">Usuarios</span>
+                    <span class="dropdown-icon material-symbols-outlined" [class.rotate]="isPersonalOpen">
+                        keyboard_arrow_down</span>
+                </a>
+            </li>
+
+            <!-- ================= Interfaz Paciente ================= -->
+
+            <li class="nav-link" *ngIf="hasRole('paciente')">
+                <a routerLink="/historial-paciente" (click)="onConsultasPaciente()">
+                    <i class='bx bx-file'></i>
+                    <span class="text nav-text">Mis Historias clínicas</span>
+                </a>
+            </li>
+
+            <li class="nav-link" *ngIf="hasRole('paciente')">
+                <a routerLink="/nuevo-consulta-paciente" (click)="onConsultasPaciente()">
+                    <i class='bx bx-test-tube'></i>
+                    <span class="text nav-text">Mis Consultas</span>
+                </a>
+            </li>
+
+
+            <!-- ================= BOTTOM NAV ================= -->
+            <ul class="nav-list secondary-nav">
+                <!-- Configuración -->
+
+            </ul>
+        </ul>
+    </nav>
+
+</aside>

@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary shadow-sm">
+    <div class="container-fluid">
+
+        <!-- Logo / Título -->
+        <a class="navbar-brand fw-bold">
+      Sistema Hospitalario
+    </a>
+
+        <!-- Botón responsive -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+        <!-- Contenido -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+
+            <!-- Buscador -->
+            <form class="d-flex ms-auto me-3" role="search">
+                <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">
+          Buscar
+        </button>
+            </form>
+
+            <!-- Menú derecho -->
+            <ul class="navbar-nav align-items-center">
+
+                <!-- Usuario logueado -->
+                <li class="nav-item dropdown" *ngIf="username">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                        <i class="bx bx-user-circle me-1"></i> {{ username }}
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <span class="dropdown-item-text">
+                <small>Rol: <strong>{{ role }}</strong></small>
+              </span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-danger" (click)="logout()">
+                                <i class="bx bx-log-out me-1"></i> Cerrar sesión
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Login -->
+                <li class="nav-item" *ngIf="!username">
+                    <a routerLink="/login" class="nav-link">
+                        <i class="bx bx-log-in me-1"></i> Login
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>

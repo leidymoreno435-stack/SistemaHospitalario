@@ -1,0 +1,70 @@
+<div class="dashboard">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="dashboard-left">
+        <div class="profile-card">
+            <h4>Actividades Prioritarias</h4>
+            <button class="btn-primary">Check It Now</button>
+        </div>
+
+        <div class="illustration"></div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+            <h2>Hola, {{ username || 'Usuario' }} 👋</h2>
+            <p>Registro diario</p>
+        </header>
+
+        <section class="cards-grid">
+
+            <div class="card">
+                <h4>Cronograma del Día</h4>
+                <p><strong> ST Hospital</strong></p>
+                <p>Dr. Emilia Winson</p>
+                <small>14 Mar 2022 — 09:00 pm</small>
+            </div>
+
+
+            <div class="card">
+                <h4>Daily progress</h4>
+            </div>
+
+        </section>
+
+        <section class="modules">
+            <div class="module">Pacientes</div>
+            <div class="module">Consultas</div>
+            <div class="module">Personal</div>
+            <div class="module">Habitaciones</div>
+        </section>
+
+    </main>
+
+    <!-- RIGHT PANEL -->
+    <aside class="dashboard-right">
+        <div class="card">
+            <h4>
+                {{ currentDate | date:'fullDate' }}
+            </h4>
+
+            <div class="calendar-time">
+                <span class="time">
+            {{ currentTime }}
+        </span>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <h4>Notificaciones</h4>
+            <ul>
+                <li>M — 10:00pm</li>
+                <li>P — 09:00am</li>
+            </ul>
+        </div>
+    </aside>
+
+</div>

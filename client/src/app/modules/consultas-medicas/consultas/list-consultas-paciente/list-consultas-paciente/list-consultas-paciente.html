@@ -1,0 +1,49 @@
+<div class="container mt-4">
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h2 class="mb-0">Buscar consultas por paciente</h2>
+	</div>
+
+	<div class="mb-3">
+		<div class="input-group">
+			<input #inputId type="text" class="form-control" placeholder="Ingresa ID de paciente" />
+			<button class="btn btn-primary" (click)="ListarConsultasPaciente(inputId.value)">Buscar</button>
+		</div>
+	</div>
+
+	<div *ngIf="consultas.length > 0; else sinConsultas" class="table-responsive">
+		<table class="table table-hover table-striped">
+			<thead class="table-dark">
+				<tr>
+					<th>ID Consulta</th>
+					<th>ID Paciente</th>
+					<th>Motivo</th>
+					<th>Estado</th>
+					<th>Fecha Programada</th>
+					<th>Fecha Realizacion</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let c of consultas">
+					<td>{{ c.id_consulta }}</td>
+					<td>{{ c.id_paciente }}</td>
+					<td>{{ c.motivo }}</td>
+					<td>{{ c.estado }}</td>
+					<td>{{ c.fecha_programada | date: 'dd/MM/yyyy' }}</td>
+					<td>{{ c.fecha_realizacion | date: 'dd/MM/yyyy' }}</td>
+					<td>
+						<button class="btn btn-sm btn-danger" (click)="cancelarConsulta(c.id_consulta)">
+							<i class="bi bi-x-circle"></i> Cancelar
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<ng-template #sinConsultas>
+		<div class="alert alert-info mt-3" role="alert">
+			<i class="bi bi-info-circle"></i> No se encontraron consultas para el ID proporcionado.
+		</div>
+	</ng-template>
+</div>

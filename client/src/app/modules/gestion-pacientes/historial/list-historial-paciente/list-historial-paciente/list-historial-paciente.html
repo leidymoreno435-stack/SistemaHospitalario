@@ -1,0 +1,35 @@
+<div class="container mt-4">
+	<div class="mb-3">
+		<div class="input-group">
+			<input #inputId type="text" class="form-control" placeholder="Ingresa ID de paciente" />
+			<button class="btn btn-primary" (click)="buscarPorId(inputId.value)">Buscar</button>
+		</div>
+	</div>
+
+	<div *ngIf="historias.length > 0; else sinHistorias" class="table-responsive">
+		<table class="table table-hover table-striped">
+			<thead class="table-dark">
+				<tr>
+					<th>ID Historia</th>
+					<th>ID Paciente</th>
+					<th>Resumen</th>
+					<th>Fecha Registro</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let h of historias">
+					<td>{{ h.id_historia }}</td>
+					<td>{{ h.id_paciente }}</td>
+					<td>{{ h.resumen }}</td>
+					<td>{{ h.fecha_registro | date:'dd/MM/yyyy' }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<ng-template #sinHistorias>
+		<div class="alert alert-info mt-3" role="alert">
+			<i class="bi bi-info-circle"></i> No se encontraron historias para el ID proporcionado.
+		</div>
+	</ng-template>
+</div>

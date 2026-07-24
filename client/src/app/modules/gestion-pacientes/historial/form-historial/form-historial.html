@@ -1,0 +1,55 @@
+<div class="card shadow border-0">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">{{ isEditing ? 'Editar Historia Clínica' : 'Nueva Historia Clínica' }}</h5>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Paciente</label>
+                    <select class="form-control" formControlName="id_paciente">
+                        <option value="">Seleccionar paciente...</option>
+                        <option *ngFor="let paciente of pacientes" [value]="paciente.id_paciente">
+                            {{ paciente.nombres }} {{ paciente.apellidos }}
+                        </option>
+                    </select>
+                    <small *ngIf="form.controls.id_paciente?.invalid && form.controls.id_paciente?.touched" class="text-danger">
+                        El paciente es obligatorio
+                    </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>ID Ingreso (Opcional)</label>
+                    <input type="number" class="form-control" formControlName="id_ingreso" placeholder="Ej: 1, 2, 3..." />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Fecha de Registro</label>
+                    <input type="date" class="form-control" formControlName="fecha_registro" />
+                    <small *ngIf="form.controls.fecha_registro?.invalid && form.controls.fecha_registro?.touched" class="text-danger">
+                        La fecha de registro es obligatoria
+                    </small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Resumen</label>
+                <textarea class="form-control" formControlName="resumen" rows="3" placeholder="Resumen de la consulta o ingreso..."></textarea>
+                <small *ngIf="form.controls.resumen?.invalid && form.controls.resumen?.touched" class="text-danger">
+                    El resumen es obligatorio
+                </small>
+            </div>
+
+            <div class="mb-3">
+                <label>Anotaciones Adicionales</label>
+                <textarea class="form-control" formControlName="anotaciones" rows="4" placeholder="Anotaciones adicionales, tratamientos, medicamentos, etc."></textarea>
+            </div>
+
+            <button class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+            <button class="btn btn-secondary ms-2" (click)="volver()">Volver</button>
+        </form>
+    </div>
+</div>

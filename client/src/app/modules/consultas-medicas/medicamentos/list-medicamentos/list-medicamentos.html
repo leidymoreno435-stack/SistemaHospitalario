@@ -1,0 +1,36 @@
+<div class="container mt-3">
+    <h3>Medicamentos</h3>
+        <div class="mb-3">
+            <button class="btn btn-success" (click)="openAdd()">Agregar medicamento</button>
+        </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Principio activo</th>
+                <th>Presentación</th>
+                <th>Stock</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let m of medicamentos">
+                <td>{{ m.id_medicamento || m.id }}</td>
+                <td>{{ m.nombre_comercial || m.nombre }}</td>
+                <td>{{ m.principio_activo }}</td>
+                <td>{{ m.presentacion }}</td>
+                <td>{{ m.stock }}</td>
+                <td>{{ m.precio_unitario || m.precio }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary me-1" (click)="openEdit(m)">Editar</button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteMedicamento(m)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="showForm" class="mt-3">
+      <app-form-medicamentos [medicamento]="selected" [mode]="mode" (saved)="onSaved($event)" (cancelled)="closeForm()"></app-form-medicamentos>
+    </div>
+</div>

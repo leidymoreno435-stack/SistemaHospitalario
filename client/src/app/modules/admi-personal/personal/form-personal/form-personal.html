@@ -1,0 +1,95 @@
+<div class="card shadow border-0">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">{{ isEditing ? 'Editar Personal Médico' : 'Nuevo Personal Médico' }}</h5>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Nombres</label>
+                    <input type="text" class="form-control" formControlName="nombres" />
+                    <small *ngIf="form.controls.nombres.touched && form.controls.nombres.invalid" class="text-danger">
+                        <span *ngIf="form.controls.nombres.errors?.['required']">
+                            El nombre es obligatorio
+                        </span>
+                        <span *ngIf="form.controls.nombres.errors?.['minlength']">
+                            El nombre debe tener al menos 3 caracteres
+                        </span>
+                        <span *ngIf="form.controls.nombres.errors?.['pattern']">
+                            Solo se permiten letras
+                        </span>
+                    </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Apellidos</label>
+                    <input type="text" class="form-control" formControlName="apellidos" />
+                    <small *ngIf="form.controls.apellidos.touched && form.controls.apellidos.invalid" class="text-danger">
+                        <span *ngIf="form.controls.apellidos.errors?.['required']">
+                            El apellido es obligatorio
+                        </span>
+                        <span *ngIf="form.controls.apellidos.errors?.['minlength']">
+                            El apellido debe tener al menos 3 caracteres
+                        </span>
+                        <span *ngIf="form.controls.apellidos.errors?.['pattern']">
+                            Solo se permiten letras
+                        </span>
+                    </small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Identificación</label>
+                    <input type="text" class="form-control" formControlName="identificacion" />
+                    <small *ngIf="form.controls.identificacion.touched && form.controls.identificacion.invalid" class="text-danger">
+                        <span *ngIf="form.controls.identificacion.errors?.['required']">
+                            La identificación es obligatoria
+                        </span>
+                        <span *ngIf="form.controls.identificacion.errors?.['pattern']">
+                            Solo se permiten números
+                        </span>
+                        <span *ngIf="form.controls.identificacion.errors?.['minlength']">
+                            Debe tener al menos 10 dígitos
+                        </span>
+                    </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Email</label>
+                    <input type="email" class="form-control" formControlName="email" />
+                    <small *ngIf="form.controls.email.touched && form.controls.email.invalid" class="text-danger">
+                        <span *ngIf="form.controls.email.errors?.['required']">
+                            El email es obligatorio
+                        </span>
+                        <span *ngIf="form.controls.email.errors?.['email']">
+                            El email no es válido
+                        </span>
+                    </small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Teléfono</label>
+                    <input type="text" class="form-control" formControlName="telefono" />
+                    <small *ngIf="form.controls.telefono.touched && form.controls.telefono.invalid" class="text-danger">
+                     El teléfono debe contener solo números (7 a 10 dígitos)
+                    </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Estado</label>
+                    <select class="form-control" formControlName="activo">
+                        <option [value]="true">Activo</option>
+                        <option [value]="false">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+            <button class="btn btn-secondary ms-2" (click)="volver()">Volver</button>
+        </form>
+    </div>
+</div>

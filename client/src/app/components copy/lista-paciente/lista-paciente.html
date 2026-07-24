@@ -1,0 +1,55 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Lista de Pacientes</h2>
+        <a routerLink="/nuevo-pacientes" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Agregar Paciente
+        </a>
+    </div>
+
+    <div *ngIf="paciente.length > 0; else sinPaciente" class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Fecha Nacimiento</th>
+                    <th>Sexo</th>
+                    <th>Identificación</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of paciente">
+                    <td>{{ p.id_paciente }}</td>
+                    <td>{{ p.nombres }}</td>
+                    <td>{{ p.apellidos }}</td>
+                    <td>{{ p.fecha_nacimiento | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ p.sexo === 'M' ? 'Masculino' : p.sexo === 'F' ? 'Femenino' : p.sexo === 'O' ? 'Otro' : p.sexo }}</td>
+                    <td>{{ p.identificacion }}</td>
+                    <td>{{ p.telefono }}</td>
+                    <td>{{ p.email }}</td>
+                    <td>{{ p.direccion }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="editarEmpleado(p.id_paciente)">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                        <button class="btn btn-sm btn-danger" (click)="eliminarEmpleado(p.id_paciente)">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <ng-template #sinPaciente>
+        <div class="alert alert-info mt-3" role="alert">
+            <i class="bi bi-info-circle"></i> No hay pacientes registrados.
+            <a routerLink="/nuevo-pacientes" class="alert-link">Agregar el primer paciente</a>
+        </div>
+    </ng-template>
+</div>

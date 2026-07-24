@@ -1,0 +1,70 @@
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">{{ isEditing ? 'Editar Habitación' : 'Nueva Habitación' }}</h5>
+                </div>
+
+                <div class="card-body">
+                    <form [formGroup]="form" (ngSubmit)="guardar()">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="codigo" class="form-label">Código</label>
+                                <input type="text" class="form-control" id="codigo" formControlName="codigo"
+                                       placeholder="Ej: 101, 202, etc." />
+                                <small *ngIf="form.controls.codigo?.invalid && form.controls.codigo?.touched" class="text-danger">
+                                    El código es obligatorio y debe tener máximo 10 caracteres
+                                </small>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="piso" class="form-label">Piso</label>
+                                <input type="number" class="form-control" id="piso" formControlName="piso"
+                                       min="1" max="50" placeholder="Ej: 1, 2, 3..." />
+                                <small *ngIf="form.controls.piso?.invalid && form.controls.piso?.touched" class="text-danger">
+                                    El piso es obligatorio (1-50)
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="tipo" class="form-label">Tipo</label>
+                                <select class="form-control" id="tipo" formControlName="tipo">
+                                    <option value="">Seleccionar tipo...</option>
+                                    <option *ngFor="let tipo of tiposHabitacion" [value]="tipo.value">
+                                        {{ tipo.label }}
+                                    </option>
+                                </select>
+                                <small *ngIf="form.controls.tipo?.invalid && form.controls.tipo?.touched" class="text-danger">
+                                    El tipo es obligatorio
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="descripcion" formControlName="descripcion"
+                                          rows="3" placeholder="Descripción de la habitación..."></textarea>
+                                <small *ngIf="form.controls.descripcion?.invalid && form.controls.descripcion?.touched" class="text-danger">
+                                    La descripción es obligatoria y debe tener máximo 255 caracteres
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+                                <i class="bi bi-check-circle"></i> {{ isEditing ? 'Actualizar' : 'Guardar' }}
+                            </button>
+                            <button type="button" class="btn btn-secondary" (click)="volver()">
+                                <i class="bi bi-arrow-left"></i> Volver
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

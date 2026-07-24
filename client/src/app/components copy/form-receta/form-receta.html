@@ -1,0 +1,56 @@
+<div class="card shadow border-0">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">{{ isEditing ? 'Editar Receta' : 'Nueva Receta' }}</h5>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Paciente</label>
+                    <select class="form-control" formControlName="id_paciente">
+                        <option value="">Seleccionar Paciente...</option>
+                        <option *ngFor="let p of pacientes" [value]="p.id_paciente">
+                            {{ p.nombres }} {{ p.apellidos }}
+                        </option>
+                    </select>
+                    <small *ngIf="form.controls.id_paciente?.invalid && form.controls.id_paciente?.touched" class="text-danger">
+                        El paciente es obligatorio
+                    </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Médico</label>
+                    <select class="form-control" formControlName="id_medico">
+                        <option value="">Seleccionar Médico...</option>
+                        <option *ngFor="let m of medicos" [value]="m.id_personal">
+                            {{ m.nombres }} {{ m.apellidos }}
+                        </option>
+                    </select>
+                    <small *ngIf="form.controls.id_medico?.invalid && form.controls.id_medico?.touched" class="text-danger">
+                        El médico es obligatorio
+                    </small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Fecha de Emisión</label>
+                <input type="date" class="form-control" formControlName="fecha_emision" />
+                <small *ngIf="form.controls.fecha_emision?.invalid && form.controls.fecha_emision?.touched" class="text-danger">
+                    La fecha de emisión es obligatoria
+                </small>
+            </div>
+
+            <div class="mb-3">
+                <label>Instrucciones</label>
+                <textarea class="form-control" rows="4" formControlName="instrucciones" placeholder="Escribe las instrucciones médicas..."></textarea>
+                <small *ngIf="form.controls.instrucciones?.invalid && form.controls.instrucciones?.touched" class="text-danger">
+                    Las instrucciones deben tener al menos 10 caracteres
+                </small>
+            </div>
+
+            <button class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+            <button class="btn btn-secondary ms-2" (click)="volver()">Volver</button>
+        </form>
+    </div>
+</div>

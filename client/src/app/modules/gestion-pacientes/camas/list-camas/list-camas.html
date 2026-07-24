@@ -1,0 +1,54 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Lista de Camas</h2>
+        <div>
+            <a routerLink="/home" class="btn btn-secondary me-2">
+                <i class="bi bi-house"></i> Regresar al Home
+            </a>
+            <a routerLink="/nuevo-camas" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Agregar Cama
+            </a>
+        </div>
+    </div>
+
+    <div *ngIf="camas.length > 0; else sinCamas" class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Habitación</th>
+                    <th>Número</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cama of camas">
+                    <td>{{ cama.id_cama }}</td>
+                    <td>{{ cama.numero_habitacion || 'Sin asignar' }}</td>
+                    <td>{{ cama.numero }}</td>
+                    <td>
+                        <span class="badge" [ngClass]="cama.estado === 'Disponible' ? 'bg-success' : cama.estado === 'Ocupada' ? 'bg-danger' : 'bg-warning'">
+                            {{ cama.estado }}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="editarCama(cama.id_cama)">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                        <button class="btn btn-sm btn-danger" (click)="eliminarCama(cama.id_cama)">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <ng-template #sinCamas>
+        <div class="alert alert-info mt-3" role="alert">
+            <i class="bi bi-info-circle"></i> No hay camas registradas.
+            <a routerLink="/nuevo-camas" class="alert-link">Agregar la primera cama</a>
+        </div>
+    </ng-template>
+</div>

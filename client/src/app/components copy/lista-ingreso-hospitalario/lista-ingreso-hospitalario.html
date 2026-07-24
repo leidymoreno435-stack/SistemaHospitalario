@@ -1,0 +1,53 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Lista de Ingresos Hospitalarios</h2>
+        <a routerLink="/nuevo-ingreso" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Agregar Ingreso
+        </a>
+    </div>
+
+    <div *ngIf="ingreso.length > 0; else sinIngreso" class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Paciente</th>
+                    <th>Médico Responsable</th>
+                    <th>Cama (Habitación)</th>
+                    <th>Fecha Ingreso</th>
+                    <th>Fecha Alta</th>
+                    <th>Motivo</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of ingreso">
+                    <td>{{ i.id_ingreso }}</td>
+                    <td>{{ i.paciente_nombres }} {{ i.paciente_apellidos }}</td>
+                    <td>{{ i.medico_nombres }} {{ i.medico_apellidos }}</td>
+                    <td>{{ i.cama_numero }} (Hab. {{ i.habitacion_codigo }})</td>
+                    <td>{{ i.fecha_ingreso | date: 'dd/MM/yyyy HH:mm' }}</td>
+                    <td>{{ i.fecha_alta ? (i.fecha_alta | date: 'dd/MM/yyyy HH:mm') : 'N/A' }}</td>
+                    <td>{{ i.motivo_ingreso }}</td>
+                    <td>{{ i.estado }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" (click)="editarIngreso(i.id_ingreso)">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                        <button class="btn btn-sm btn-danger" (click)="eliminarIngreso(i.id_ingreso)">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <ng-template #sinIngreso>
+        <div class="alert alert-info mt-3" role="alert">
+            <i class="bi bi-info-circle"></i> No hay ingresos hospitalarios registrados.
+            <a routerLink="/nuevo-ingreso" class="alert-link">Agregar el primer ingreso</a>
+        </div>
+    </ng-template>
+</div>

@@ -1,0 +1,23 @@
+<div class="card shadow border-0">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Nuevo Servicio</h5>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" formControlName="nombre" />
+                </div>
+                <div class="col-md-6">
+                    <label>Precio</label>
+                    <input type="number" class="form-control" formControlName="precio" />
+                </div>
+            </div>
+
+            <button class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+            <button class="btn btn-secondary ms-2" (click)="volver()">Volver</button>
+        </form>
+    </div>
+</div>

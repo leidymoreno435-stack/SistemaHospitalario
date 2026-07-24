@@ -1,0 +1,63 @@
+<div class="card shadow border-0">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">{{ isEditing ? 'Editar Personal' : 'Nuevo Personal' }}</h5>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Nombres</label>
+                    <input type="text" class="form-control" formControlName="nombres" />
+                    <small *ngIf="form.controls.nombres?.invalid && form.controls.nombres?.touched" class="text-danger">
+                        El nombre debe ser minimo 3 caracteres
+                    </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Apellidos</label>
+                    <input type="text" class="form-control" formControlName="apellidos" />
+                    <small *ngIf="form.controls.apellidos?.invalid && form.controls.apellidos?.touched" class="text-danger">
+                        El apellido debe ser minimo 3 caracteres
+                    </small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Identificación</label>
+                    <input type="text" class="form-control" formControlName="identificacion" />
+                    <small *ngIf="form.controls.identificacion?.invalid && form.controls.identificacion?.touched" class="text-danger">
+                        La identificación es obligatoria
+                    </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Email</label>
+                    <input type="email" class="form-control" formControlName="email" />
+                    <small *ngIf="form.controls.email?.invalid && form.controls.email?.touched" class="text-danger">
+                        El email es obligatorio y debe ser válido
+                    </small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Teléfono</label>
+                    <input type="text" class="form-control" formControlName="telefono" />
+                </div>
+
+                <div class="col-md-6">
+                    <label>Activo</label>
+                    <select class="form-control" formControlName="activo">
+                        <option [value]="true">Sí</option>
+                        <option [value]="false">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+            <button class="btn btn-secondary ms-2" (click)="volver()">Volver</button>
+        </form>
+    </div>
+</div>

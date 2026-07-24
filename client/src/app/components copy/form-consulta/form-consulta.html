@@ -1,0 +1,76 @@
+<div class="card shadow border-0">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">{{ isEditing ? 'Editar Consulta' : 'Nueva Consulta' }}</h5>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>ID Paciente</label>
+                    <input type="number" class="form-control" formControlName="IdPaciente" />
+                </div>
+
+                <div class="col-md-6">
+                    <label>ID Médico</label>
+                    <input type="number" class="form-control" formControlName="IdMedico" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label>ID Consultorio</label>
+                    <input type="number" class="form-control" formControlName="IdConsultorio" />
+                </div>
+
+                <div class="col-md-8">
+                    <label>Motivo</label>
+                    <input type="text" class="form-control" formControlName="motivo" />
+                    <small *ngIf="form.controls.motivo?.invalid && form.controls.motivo?.touched" class="text-danger">El motivo es obligatorio</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Observaciones</label>
+                <textarea class="form-control" formControlName="observaciones"></textarea>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label>Estado</label>
+                    <input type="text" class="form-control" formControlName="estado" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Fecha Programada</label>
+                    <input type="date" class="form-control" formControlName="fecha_programada" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Fecha Realización</label>
+                    <input type="date" class="form-control" formControlName="fecha_realizacion" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label>Duración (min)</label>
+                    <input type="number" class="form-control" formControlName="Duracion_min" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Tarifa</label>
+                    <input type="number" step="0.01" class="form-control" formControlName="Tarifa" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Creado</label>
+                    <input type="date" class="form-control" formControlName="Creado" />
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+            <button type="button" class="btn btn-secondary ms-2" (click)="volver()">Volver</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Registro de Signos Vitales</h2>
+        <a routerLink="/nuevo-signos-vitales" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Registrar Signos Vitales
+        </a>
+    </div>
+
+    <div *ngIf="signosVitales.length > 0; else sinRegistros" class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Paciente</th>
+                    <th>Fecha</th>
+                    <th>Presión Arterial</th>
+                    <th>Temperatura (°C)</th>
+                    <th>Pulso (lpm)</th>
+                    <th>Saturación O₂ (%)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sv of signosVitales">
+                    <td>{{ sv.id }}</td>
+                    <td>{{ sv.paciente }}</td>
+                    <td>{{ sv.fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
+                    <td>{{ sv.presion }}</td>
+                    <td>{{ sv.temperatura }}</td>
+                    <td>{{ sv.pulso }}</td>
+                    <td>{{ sv.saturacion }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-1" (click)="editarSignos(sv.id)">
+              <i class="bi bi-pencil"></i> Editar
+            </button>
+                        <button class="btn btn-sm btn-danger" (click)="eliminarSignos(sv.id)">
+              <i class="bi bi-trash"></i> Eliminar
+            </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <ng-template #sinRegistros>
+        <div class="alert alert-info mt-3" role="alert">
+            <i class="bi bi-info-circle"></i> No hay registros de signos vitales.
+            <a routerLink="/nuevo-signos-vitales" class="alert-link">Registrar el primero</a>
+        </div>
+    </ng-template>
+</div>

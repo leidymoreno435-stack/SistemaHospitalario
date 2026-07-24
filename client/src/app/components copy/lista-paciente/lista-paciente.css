@@ -1,0 +1,81 @@
+/* Tabla de pacientes */
+
+.table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table thead {
+    font-weight: 600;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table td {
+    vertical-align: middle;
+    padding: 12px;
+}
+
+
+/* Botones */
+
+.btn-sm {
+    padding: 6px 10px;
+    font-size: 0.875rem;
+    margin-right: 5px;
+}
+
+.btn-primary {
+    background-color: #667eea;
+    border-color: #667eea;
+}
+
+.btn-primary:hover {
+    background-color: #5568d3;
+    border-color: #5568d3;
+}
+
+.btn-danger {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.btn-danger:hover {
+    background-color: #ff5252;
+    border-color: #ff5252;
+}
+
+
+/* Alert */
+
+.alert {
+    border-radius: 8px;
+    border: 1px solid rgba(13, 110, 253, 0.25);
+    padding: 15px 20px;
+}
+
+.alert-info {
+    background-color: #e7f3ff;
+    color: #004085;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .table {
+        font-size: 0.875rem;
+    }
+    .btn-sm {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+}

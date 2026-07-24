@@ -1,0 +1,87 @@
+<div class="card shadow border-0">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">{{ isEditing ? 'Editar Paciente' : 'Nuevo Paciente' }}</h5>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Nombres</label>
+                    <input type="text" class="form-control" formControlName="nombres" />
+                    <small *ngIf="form.controls.nombres?.invalid && form.controls.nombres?.touched" class="text-danger">
+            El nombre debe ser minimo 3 caracteres
+            
+          </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Apellidos</label>
+                    <input type="text" class="form-control" formControlName="apellidos" />
+                    <small *ngIf="form.controls.apellidos?.invalid && form.controls.apellidos?.touched" class="text-danger">
+            El apellido debe ser minimo 3 caracteres
+          </small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Identificación</label>
+                    <input type="text" class="form-control" formControlName="identificacion" />
+                    <small *ngIf="form.controls.identificacion?.invalid && form.controls.identificacion?.touched" class="text-danger">
+            La identificación es obligatoria
+          </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" formControlName="fecha_nacimiento" />
+                    <small *ngIf="form.controls.fecha_nacimiento?.invalid && form.controls.fecha_nacimiento?.touched" class="text-danger">
+            La fecha de nacimiento es obligatoria
+          </small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Sexo</label>
+                    <select class="form-control" formControlName="sexo">
+                        <option value="">Seleccionar...</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                    <small *ngIf="form.controls.sexo?.invalid && form.controls.sexo?.touched" class="text-danger">
+            El sexo es obligatorio
+          </small>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Email</label>
+                    <input type="email" class="form-control" formControlName="email" />
+                    <small *ngIf="form.controls.email?.invalid && form.controls.email?.touched" class="text-danger">
+            El email es obligatorio y debe ser válido
+          </small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Teléfono</label>
+                    <input type="text" class="form-control" formControlName="telefono" />
+                </div>
+
+                <div class="col-md-6">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Dirección</label>
+                <textarea class="form-control" formControlName="direccion"></textarea>
+            </div>
+
+            <button class="btn btn-success" [disabled]="form.invalid">Guardar</button>
+            <button class="btn btn-secondary ms-2" (click)="volver()">Volver</button>
+        </form>
+    </div>
+</div>
