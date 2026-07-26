@@ -1,0 +1,43 @@
+import { Router } from 'express';
+import proxy from 'express-http-proxy';
+import { verifyToken } from '../middleware/authMiddleware.js';
+
+const router = Router();
+
+// ==========================================
+// RUTAS PÚBLICAS
+// ==========================================
+// El login/register en ms-security no requiere token
+router.use('/auth', proxy('http://ms-security:3001', {
+    proxyReqPathResolver: (req) => `/api/v1/auth${req.url}`
+}));
+
+// ==========================================
+// RUTAS PROTEGIDAS
+// ==========================================
+// Las peticiones internas de usuarios/roles a security sí requieren token
+router.use('/usuarios', verifyToken, proxy('http://ms-security:3001', {
+    proxyReqPathResolver: (req) => `/api/v1/usuarios${req.url}`
+}));
+
+// Proxy hacia Pacientes
+router.use('/patients', verifyToken, proxy('http://ms-patients:3002', {
+    proxyReqPathResolver: (req) => `/api/v1/patients${req.url}`
+}));
+
+// Proxy hacia Personal
+router.use('/personal', verifyToken, proxy('http://ms-personal:3003', {
+    proxyReqPathResolver: (req) => `/api/v1/personal${req.url}`
+}));
+
+// Proxy hacia Consultas (Clinical)
+router.use('/clinical', verifyToken, proxy('http://ms-clinical:3004', {
+    proxyReqPathResolver: (req) => `/api/v1/clinical${req.url}`
+}));
+
+// Proxy hacia Facturación (Billing)
+router.use('/billing', verifyToken, proxy('http://ms-billing:3005', {
+    proxyReqPathResolver: (req) => `/api/v1/billing${req.url}`
+}));
+
+export default router;

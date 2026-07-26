@@ -1,32 +1,103 @@
+version: '3.8'
+
+networks:
+  hospital_net:
+    driver: bridge
+
 services:
-  server:
-    build: ./server
-    container_name: server
+  # ==================================
+  # API GATEWAY
+  # ==================================
+  api-gateway:
+    build: ./server/api-gateway
+    container_name: api-gateway
     ports:
-      - "3001:3000"
-    volumes:
-      - ./server:/app
-      - /app/node_modules
+      - "8080:8080"
+    networks:
+      - hospital_net
+    depends_on:
+      - ms-security
+      - ms-patients
+      - ms-personal
+      - ms-clinical
+      - ms-billing
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET:-super_secret_key_production_ready_99}
+      - FRONTEND_URL=http://localhost:5173
+
+  # ==================================
+  # MICROSERVICIOS INTERNOS (Sin puertos expuestos)
+  # ==================================
+  ms-security:
+    build: ./server/ms-security
+    container_name: ms-security
+    networks:
+      - hospital_net
+    depends_on:
+      postgres:
+        condition: service_healthy
     env_file:
-      - ./server/.env
+      - ./server/ms-security/.env
+
+  ms-patients:
+    build: ./server/ms-patients
+    container_name: ms-patients
+    networks:
+      - hospital_net
     depends_on:
       postgres:
         condition: service_healthy
 
+  ms-personal:
+    build: ./server/ms-personal
+    container_name: ms-personal
+    networks:
+      - hospital_net
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  ms-clinical:
+    build: ./server/ms-clinical
+    container_name: ms-clinical
+    networks:
+      - hospital_net
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  ms-billing:
+    build: ./server/ms-billing
+    container_name: ms-billing
+    networks:
+      - hospital_net
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ==================================
+  # FRONTEND
+  # ==================================
   client:
     build: ./client
     container_name: client
     ports:
       - "5173:5173"
-    volumes:
-      - ./client:/app
-      - /app/node_modules
+    networks:
+      - hospital_net
     depends_on:
-      - server
+      - api-gateway
+
+  # ==================================
+  # BASE DE DATOS COMPARTIDA
+  # ==================================
   postgres:
     image: postgres:16
     container_name: postgres-hospital
     restart: always
+    networks:
+      - hospital_net
     environment:
       POSTGRES_DB: SistemaHospitalario
       POSTGRES_USER: postgres
@@ -41,6 +112,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./SisHospital.sql:/docker-entrypoint-initdb.d/init.sql
+
 volumes:
   postgres_data:
-
