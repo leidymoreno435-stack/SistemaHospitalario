@@ -1,11 +1,11 @@
 export default class Personal {
-    constructor(id, nombre, apellido, identificacion, idUsuario, idspecialty, telefono, email, activo, creado_en) {
+    constructor(id, nombre, apellido, identificacion, idUsuario, idSpecialty, telefono, email, activo, creado_en) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.identificacion = identificacion;
         this.idUsuario = idUsuario;
-        this.idspecialty = idspecialty;
+        this.idspecialty = idSpecialty;
         this.telefono = telefono;
         this.email = email;
         this.activo = activo;
@@ -27,7 +27,7 @@ export default class Personal {
         return this.idUsuario;
     }
     getIdSpecialty = () => {
-        return this.idspecialty;
+        return this.idSpecialty;
     }
     getTelefono = () => {
         return this.telefono;

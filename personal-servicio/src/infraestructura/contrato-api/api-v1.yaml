@@ -1,63 +1,41 @@
 openapi: 3.0.0
 
 info:
-  title: API de Usuarios
+  title: API de Personal
   version: 1.0.0
-  description: Contrato de API para la gestión de usuarios usando arquitectura hexagonal en Node.js.
+  description: Contrato de API para la gestión del personal usando arquitectura hexagonal en Node.js.
 
 servers:
   - url: http://localhost:3001/api/v1
 
 tags:
-  - name: Usuarios
-    description: Operaciones relacionadas con usuarios
+  - name: Personal
+    description: Operaciones relacionadas con el personal
 
 paths:
-  /auth/login:
-    post:
-      tags:
-        - Auth
-      summary: Iniciar sesion
-      description: Valida credenciales y retorna un JWT para acceso autenticado.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
-      responses:
-        '200':
-          description: Token generado correctamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-        '401':
-          description: Credenciales invalidas
-
-  /usuarios:
+  /personal:
     get:
       tags:
-        - Usuarios
-      summary: Listar usuarios
-      description: Obtiene la lista de usuarios registrados.
+        - Personal
+      summary: Listar personal
+      description: Obtiene la lista del personal registrado.
       security:
         - bearerAuth: []
       responses:
         '200':
-          description: Lista de usuarios obtenida correctamente
+          description: Lista del personal obtenida correctamente
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Usuario'
+                  $ref: '#/components/schemas/Personal'
 
     post:
       tags:
-        - Usuarios
-      summary: Crear usuario
-      description: Registra un nuevo usuario en el sistema.
+        - Personal
+      summary: Crear personal
+      description: Registra un nuevo integrante del personal.
       security:
         - bearerAuth: []
       requestBody:
@@ -65,54 +43,54 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CrearUsuarioRequest'
+              $ref: '#/components/schemas/CrearPersonalRequest'
       responses:
         '201':
-          description: Usuario creado correctamente
+          description: Personal creado correctamente
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'
+                $ref: '#/components/schemas/Personal'
         '400':
           description: Datos inválidos
 
-  /usuarios/{id}:
+  /personal/{id}:
     get:
       tags:
-        - Usuarios
-      summary: Buscar usuario por ID
-      description: Obtiene un usuario mediante su identificador.
+        - Personal
+      summary: Buscar personal por ID
+      description: Obtiene un integrante del personal mediante su identificador.
       security:
         - bearerAuth: []
       parameters:
         - name: id
           in: path
           required: true
-          description: Identificador único del usuario
+          description: Identificador del personal
           schema:
             type: integer
       responses:
         '200':
-          description: Usuario encontrado correctamente
+          description: Personal encontrado correctamente
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'
+                $ref: '#/components/schemas/Personal'
         '404':
-          description: Usuario no encontrado
+          description: Personal no encontrado
 
     put:
       tags:
-        - Usuarios
-      summary: Actualizar usuario
-      description: Actualiza los datos de un usuario existente.
+        - Personal
+      summary: Actualizar personal
+      description: Actualiza la información de un integrante del personal.
       security:
         - bearerAuth: []
       parameters:
         - name: id
           in: path
           required: true
-          description: Identificador único del usuario
+          description: Identificador del personal
           schema:
             type: integer
       requestBody:
@@ -120,32 +98,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ActualizarUsuarioRequest'
+              $ref: '#/components/schemas/ActualizarPersonalRequest'
       responses:
         '200':
-          description: Usuario actualizado correctamente
+          description: Personal actualizado correctamente
         '404':
-          description: Usuario no encontrado
+          description: Personal no encontrado
 
     delete:
       tags:
-        - Usuarios
-      summary: Eliminar usuario
-      description: Elimina un usuario mediante su identificador.
+        - Personal
+      summary: Eliminar personal
+      description: Elimina un integrante del personal mediante su identificador.
       security:
         - bearerAuth: []
       parameters:
         - name: id
           in: path
           required: true
-          description: Identificador único del usuario
+          description: Identificador del personal
           schema:
             type: integer
       responses:
         '200':
-          description: Usuario eliminado correctamente
+          description: Personal eliminado correctamente
         '404':
-          description: Usuario no encontrado
+          description: Personal no encontrado
 
 components:
   securitySchemes:
@@ -155,87 +133,128 @@ components:
       bearerFormat: JWT
 
   schemas:
-    LoginRequest:
-      type: object
-      required:
-        - nombre
-        - contrasena
-      properties:
-        nombre:
-          type: string
-          example: admin
-        contrasena:
-          type: string
-          example: Admin1234!
 
-    LoginResponse:
-      type: object
-      properties:
-        estado:
-          type: string
-          example: ok
-        token:
-          type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        tipo:
-          type: string
-          example: Bearer
-        expiracion:
-          type: string
-          example: 15m
-        usuario:
-          type: object
-          properties:
-            id:
-              type: string
-              example: "1"
-            nombre:
-              type: string
-              example: admin
-            rol:
-              type: string
-              example: admin
-
-    Usuario:
+    Personal:
       type: object
       properties:
         id:
           type: integer
           example: 1
+
         nombre:
           type: string
           example: Juan
+
         apellido:
           type: string
           example: Pérez
-        correo:
-          type: string
-          example: juan@correo.com
-        estado:
-          type: string
-          example: activo
 
-    CrearUsuarioRequest:
+        identificacion:
+          type: string
+          example: "0701234567"
+
+        idUsuario:
+          type: integer
+          example: 3
+
+        idSpecialty:
+          type: integer
+          example: 2
+
+        telefono:
+          type: string
+          example: "0999999999"
+
+        email:
+          type: string
+          format: email
+          example: juan@correo.com
+
+        activo:
+          type: boolean
+          example: true
+
+        creado_en:
+          type: string
+          format: date-time
+          example: "2026-07-26T10:30:00Z"
+
+    CrearPersonalRequest:
       type: object
       required:
         - nombre
+        - apellido
+        - identificacion
+        - idUsuario
+        - idSpecialty
+        - telefono
+        - email
       properties:
         nombre:
           type: string
           example: Juan
-        
-    ActualizarUsuarioRequest:
+
+        apellido:
+          type: string
+          example: Pérez
+
+        identificacion:
+          type: string
+          example: "0701234567"
+
+        idUsuario:
+          type: integer
+          example: 3
+
+        idSpecialty:
+          type: integer
+          example: 2
+
+        telefono:
+          type: string
+          example: "0999999999"
+
+        email:
+          type: string
+          format: email
+          example: juan@correo.com
+
+        activo:
+          type: boolean
+          example: true
+
+    ActualizarPersonalRequest:
       type: object
       properties:
         nombre:
           type: string
           example: Juan Carlos
+
         apellido:
           type: string
-          example: Pérez
-        correo:
+          example: Pérez Gómez
+
+        identificacion:
           type: string
+          example: "0701234567"
+
+        idUsuario:
+          type: integer
+          example: 3
+
+        idSpecialty:
+          type: integer
+          example: 2
+
+        telefono:
+          type: string
+          example: "0988888888"
+
+        email:
+          type: string
+          format: email
           example: juancarlos@correo.com
-        estado:
-          type: string
-          example: inactivo
+
+        activo:
+          type: boolean
+          example: false

@@ -12,13 +12,7 @@ import { traceMiddleWare } from './infraestructura/middleware/TraceMiddleware.js
 import { timeMiddleware } from './infraestructura/middleware/TimeMiddleware.js';
 import { loggerMiddleware } from './infraestructura/middleware/LoggerMiddleware.js';
 import personalRuta from './infraestructura/rutas/moduloPersonalRutas.js'
-import crearAuthRutas from './infraestructura/rutas/authRutas.js';
-import { crearAuthMiddleware } from './infraestructura/middleware/AuthMiddleware.js';
-import AutenticacionServicio from './infraestructura/seguridad/AutenticacionServicio.js';
-import JwtTokenServicio from './infraestructura/seguridad/JwtTokenServicio.js';
 import ContrasenaHasher from './infraestructura/seguridad/ContrasenaHasher.js';
-import { crearUsuariosDemo } from './infraestructura/seguridad/UsuariosDemo.js';
-import { AuthControlador } from './infraestructura/adaptador-entrada/AuthControlador.js';
 
 //Librerias Core
 const app = express();
@@ -29,21 +23,6 @@ app.use(express.json())
 const urlContrato = './src/infraestructura/contrato-api/api-v1.yaml';
 const swaggerDocument = YAML.load(urlContrato);
 app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-const hasher = new ContrasenaHasher();
-const tokenServicio = new JwtTokenServicio({
-    secreto: process.env.JWT_SECRET ? ? "123456",
-    expiracion: "15m",
-});
-const usuariosDemo = await crearUsuariosDemo(hasher);
-const autenticacionServicio = new AutenticacionServicio({
-    hasher,
-    tokenServicio,
-    usuarios: usuariosDemo,
-});
-const authControlador = new AuthControlador(autenticacionServicio);
-const authMiddleware = crearAuthMiddleware(autenticacionServicio);
-const authRutas = crearAuthRutas(authControlador);
 
 // MiddleWare 
 app.use(traceMiddleWare);
