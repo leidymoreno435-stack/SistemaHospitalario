@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 //import { Pacient } from '../../model/pacient';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 

@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
+/*import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -46,4 +46,4 @@ updateTime() {
   this.currentTime = now.toLocaleTimeString();
 }
 
-}
+}*/
