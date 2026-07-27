@@ -2,12 +2,14 @@
     display: grid;
     grid-template-columns: 260px 1fr 300px;
     height: 100vh;
-    background: #f5f7fb;
+    background: transparent;
+    gap: 20px;
 }
 
 .dashboard-left {
-    background: #e8f4f1;
+    background: transparent;
     padding: 20px;
+    border-right: 1px solid var(--border-color);
 }
 
 .dashboard-main {
@@ -15,8 +17,9 @@
 }
 
 .dashboard-right {
-    background: #ffffff;
+    background: transparent;
     padding: 20px;
+    border-left: 1px solid var(--border-color);
 }
 
 .cards-grid {
@@ -27,30 +30,24 @@
 }
 
 .card {
-    background: white;
+    background: var(--surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, .05);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+}
+.card:hover {
+    border-color: var(--border-highlight);
+    background: var(--surface-hover);
+    transform: translateY(-2px);
 }
 
-.bars span {
-    display: inline-block;
-    width: 12px;
-    height: 60px;
-    background: #9ac6a5;
-    margin-right: 6px;
-    border-radius: 6px;
-}
-
-.progress .circle {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    background: #c7eadb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
+.card h4 {
+    color: var(--primary);
+    margin-bottom: 10px;
 }
 
 .modules {
@@ -61,21 +58,34 @@
 }
 
 .module {
-    background: #ffffff;
+    background: var(--surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
     padding: 20px;
     border-radius: 12px;
     text-align: center;
     cursor: pointer;
+    font-weight: 500;
+    transition: all var(--transition-normal);
+}
+.module:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
 }
 
 .calendar-time {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .calendar-time .time {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #4caf93;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--secondary);
+    text-shadow: 0 0 10px rgba(20, 184, 166, 0.3);
 }

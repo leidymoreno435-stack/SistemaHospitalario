@@ -41,8 +41,8 @@ import { ListConsultorio } from './feautures/modules/admi-personal/consultorio/l
 import { ListEspecialidad } from './feautures/modules/admi-personal/especialidad/list-especialidad/list-especialidad';
 import { ListUsuarios } from './feautures/modules/authentic/usuarios/list-usuarios/list-usuarios';
 export const routes: Routes = [
-  { path: 'login', component: FormLogin }, // Fuera del layout
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Ruta por defecto redirija a login
+ // { path: 'login', component: FormLogin }, // Fuera del layout
+  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Ruta por defecto redirija a login
   {
     path: '', 
     component: Layout, // El "Padre" que tiene el Sidebar

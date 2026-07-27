@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 //import { Pacient } from '../../model/pacient';
-import { AuthService } from '../../core/servicesss/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -35,10 +35,10 @@ toggleFacturacion() { this.isFacturacionOpen = !this.isFacturacionOpen; }
   constructor(private auth: AuthService, private router: Router) {}
 
    ngOnInit(): void {
-    /* this.sub = this.auth.user$.subscribe(user => {
+     this.sub = this.auth.user$.subscribe(user => {
        this.role = user?.rol ? String(user.rol).toLowerCase() : null;
        this.username = user?.username || null;
-     }); */
+     });
    }
 
    ngOnDestroy(): void {

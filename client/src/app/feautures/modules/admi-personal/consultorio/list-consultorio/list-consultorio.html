@@ -1,1 +1,49 @@
-<p>list-consultorio works!</p>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Lista de Consultorios</h2>
+        <div>
+            <a routerLink="/home" class="btn btn-secondary me-2">
+                <i class="bi bi-house"></i> Regresar al Home
+            </a>
+            <a routerLink="/nuevo-consultorio" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Agregar Consultorio
+            </a>
+        </div>
+    </div>
+
+    <div *ngIf="consultorios.length > 0; else sinRegistros" class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Piso</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cons of consultorios">
+                    <td>{{ cons.id_consultorio || cons.id }}</td>
+                    <td>{{ cons.codigo }}</td>
+                    <td>{{ cons.nombre }}</td>
+                    <td>{{ cons.piso }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-2" (click)="editarConsultorio(cons.id_consultorio || cons.id)">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                        <button class="btn btn-sm btn-danger" (click)="eliminarConsultorio(cons.id_consultorio || cons.id)">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <ng-template #sinRegistros>
+        <div class="alert alert-info mt-3" role="alert">
+            <i class="bi bi-info-circle"></i> No hay consultorios registrados.
+        </div>
+    </ng-template>
+</div>
