@@ -1,6 +1,6 @@
 export default class usuarioDTO {
     constructor(usuario) {
-        this.id_usuario = usuario.id;
+        this.id_usuario = usuario.id_usuario;
         this.username = usuario.username;
         this.password_hash = usuario.password_hash;
         this.id_rol = usuario.id_rol;
@@ -12,6 +12,9 @@ export default class usuarioDTO {
     }
     getUsername() {
         return this.username;
+    }
+    getPassword_hash() {
+        return this.password_hash;
     }
     getId_rol() {
         return this.id_rol;

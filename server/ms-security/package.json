@@ -6,7 +6,7 @@
     "author": "",
     "license": "ISC",
     "scripts": {
-        "dev": "nodemon -L src/infraestructure/server.js"
+        "dev": "nodemon -L src/server.js"
     },
     "type": "module",
     "dependencies": {
