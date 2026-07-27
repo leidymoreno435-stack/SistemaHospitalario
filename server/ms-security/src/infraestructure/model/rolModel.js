@@ -16,18 +16,18 @@ const rolModel = sequelize.define('rol', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    /*delete_at: {
+    delete_at: {
         type: DataTypes.DATE,
         allowNull: true
-    }*/
+    }
 
 }, {
     tableName: 'rol',
     schema: 'public',
-    timestamps: false,
+    timestamps: true,
     deletedAt: 'delete_at',
-    freezeTableName: false,
-    paranoid: false
+    freezeTableName: true,
+    paranoid: true
 });
 export { sequelize };
 export default rolModel;
