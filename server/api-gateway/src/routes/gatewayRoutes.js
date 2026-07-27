@@ -20,6 +20,11 @@ router.use('/usuarios', verifyToken, proxy('http://ms-security:3000', {
     proxyReqPathResolver: (req) => `/api/v1/usuarios${req.url}`
 }));
 
+//proxy hacia roles
+router.use('/rol', verifyToken, proxy('http://ms-security:3000', {
+    proxyReqPathResolver: (req) => `/api/v1/rol${req.url}`
+}));
+
 // Proxy hacia Pacientes
 router.use('/patients', verifyToken, proxy('http://ms-patients:3002', {
     proxyReqPathResolver: (req) => `/api/v1/patients${req.url}`
