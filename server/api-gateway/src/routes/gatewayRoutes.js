@@ -8,7 +8,7 @@ const router = Router();
 // RUTAS PÚBLICAS
 // ==========================================
 // El login/register en ms-security no requiere token
-router.use('/auth', proxy('http://ms-security:3001', {
+router.use('/auth', proxy('http://ms-security:3000', {
     proxyReqPathResolver: (req) => `/api/v1/auth${req.url}`
 }));
 
@@ -16,7 +16,7 @@ router.use('/auth', proxy('http://ms-security:3001', {
 // RUTAS PROTEGIDAS
 // ==========================================
 // Las peticiones internas de usuarios/roles a security sí requieren token
-router.use('/usuarios', verifyToken, proxy('http://ms-security:3001', {
+router.use('/usuarios', verifyToken, proxy('http://ms-security:3000', {
     proxyReqPathResolver: (req) => `/api/v1/usuarios${req.url}`
 }));
 
@@ -26,7 +26,7 @@ router.use('/patients', verifyToken, proxy('http://ms-patients:3002', {
 }));
 
 // Proxy hacia Personal
-router.use('/personal', verifyToken, proxy('http://ms-personal:3003', {
+router.use('/personal', verifyToken, proxy('http://ms-personal:3001', {
     proxyReqPathResolver: (req) => `/api/v1/personal${req.url}`
 }));
 

@@ -8,9 +8,9 @@ import 'dotenv/config';
 import rateLimit from "express-rate-limit";
 import slowDown from "express-slow-down";
 
-import { traceMiddleWare } from '../../infraestructure/middleware/TraceMiddleware.js';
-import { timeMiddleware } from '../../infraestructure/middleware/TimeMiddleware.js';
-import { loggerMiddleWare } from '../../infraestructure/middleware/LoggerMiddleware.js';
+import { traceMiddleWare } from './infraestructure/middleware/TraceMiddleware.js';
+import { timeMiddleware } from './infraestructure/middleware/TimeMiddleware.js';
+import { loggerMiddleWare } from './infraestructure/middleware/LoggerMiddleware.js';
 import personalRuta from './infraestructure/routes/personalRoutes.js'
 
 //Librerias Core

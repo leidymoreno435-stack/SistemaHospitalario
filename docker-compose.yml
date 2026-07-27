@@ -52,6 +52,8 @@ services:
   ms-personal:
     build: ./server/ms-personal
     container_name: ms-personal
+    env_file:
+      - ./server/ms-personal/.env
     networks:
       - hospital_net
     depends_on:
