@@ -7,6 +7,21 @@ import 'dotenv/config';
 import gatewayRoutes from './routes/gatewayRoutes.js';
 
 const app = express();
+// ==========================================
+// MIDDLEWARE DE LOGS (TRAZABILIDAD)
+// ==========================================
+app.use((req, res, next) => {
+    const start = Date.now();
+    console.log(`\n➡️  [ENTRADA] ${req.method} ${req.originalUrl}`);
+
+    // Capturar cuando la respuesta finaliza
+    res.on('finish', () => {
+        const duration = Date.now() - start;
+        console.log(`⬅️  [SALIDA] ${req.method} ${req.originalUrl} | Estado: ${res.statusCode} | ${duration}ms`);
+    });
+
+    next();
+});
 
 // ==========================================
 // SEGURIDAD GLOBAL DEL GATEWAY
@@ -15,8 +30,22 @@ const app = express();
 app.use(helmet());
 
 // 2. CORS Restrictivo
+// 2. CORS con soporte para Angular y React/Vite
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    'http://localhost:4200', // Angular
+    'http://localhost:5173' // React/Vite
+].filter(Boolean); // Elimina valores undefined si FRONTEND_URL no está definido
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: function(origin, callback) {
+        // Permite peticiones sin origen (como Postman o curl) o si está en la lista de permitidos
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Bloqueado por política CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));

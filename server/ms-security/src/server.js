@@ -1,5 +1,5 @@
 import app from '../app.js';
-import sequelize from '../infraestructure/database/postgreSQL.js'; // O la ruta correcta a tu postgreSQL.js
+import sequelize from '../../infraestructure/database/postgreSQL.js'; // O la ruta correcta a tu postgreSQL.js
 
 const PORT = process.env.PORT || 3000;
 

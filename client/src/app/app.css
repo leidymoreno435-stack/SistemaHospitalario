@@ -1,0 +1,41 @@
+:root {
+    --primary: #b91c1c;
+    /* deep red */
+    --accent: #0b0b0b;
+    /* near black */
+    --muted: #f6f6f6;
+    --card-bg: #ffffff;
+    --text: #111;
+}
+
+
+/* Main Content */
+
+.main-content {
+    min-height: calc(100vh - 70px);
+    background: linear-gradient(135deg, #fff5f5 0%, #fff0f0 100%);
+    padding: 20px 0;
+    color: var(--text);
+}
+
+
+/* Global Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+}
+
+
+/* Smooth transitions */
+
+* {
+    transition: all 0.3s ease;
+}
