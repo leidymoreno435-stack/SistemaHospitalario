@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
-import { HistoriaClinicaService } from '../../../../core/services/historia-clinica/historia-clinica-service';
+import { HistoriaClinicaService } from '../../../../../core/services/historia-clinica/historia-clinica-service';
 import { CommonModule } from '@angular/common';
 
 @Component({

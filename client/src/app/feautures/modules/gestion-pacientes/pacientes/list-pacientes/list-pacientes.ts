@@ -1,7 +1,7 @@
-/*import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
-import { PacienteService } from '../../../../core/services/paciente/paciente-service';
+import { PacienteService } from '../../../../../core/services/paciente/paciente-service';
 import { AuthService } from '../../../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -87,4 +87,3 @@ export class ListPacientes {
     });
   }
 }
-*/

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
-import { IngresoService } from '../../../../core/services/ingreso/ingreso-service';
+import { IngresoService } from '../../../../../core/services/ingreso/ingreso-service';
 import { CommonModule } from '@angular/common';
 
 @Component({

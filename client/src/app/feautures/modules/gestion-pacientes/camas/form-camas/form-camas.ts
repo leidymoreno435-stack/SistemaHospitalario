@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CamaService } from '../../../../core/services/cama/cama-service';
-import { HabitacionService } from '../../../../core/services/habitacion/habitacion-service';
+import { CamaService } from '../../../../../core/services/cama/cama-service';
+import { HabitacionService } from '../../../../../core/services/habitacion/habitacion-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 

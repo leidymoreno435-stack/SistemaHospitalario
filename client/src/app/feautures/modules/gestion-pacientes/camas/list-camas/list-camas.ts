@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
-import { CamaService } from '../../../../core/services/cama/cama-service';
+import { CamaService } from '../../../../../core/services/cama/cama-service';
 import { CommonModule } from '@angular/common';
 
 @Component({

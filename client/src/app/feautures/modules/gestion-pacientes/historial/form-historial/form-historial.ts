@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HistoriaClinicaService } from '../../../../core/services/historia-clinica/historia-clinica-service';
-import { PacienteService } from '../../../../core/services/paciente/paciente-service';
+import { HistoriaClinicaService } from '../../../../../core/services/historia-clinica/historia-clinica-service';
+import { PacienteService } from '../../../../../core/services/paciente/paciente-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 

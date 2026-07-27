@@ -1,6 +1,6 @@
-/*import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { HistoriaClinicaService } from '../../../../../core/services/historia-clinica/historia-clinica-service';
+import { HistoriaClinicaService } from '../../../../../../core/services/historia-clinica/historia-clinica-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../../../../core/services/auth.service';
 import Swal from 'sweetalert2';
@@ -91,4 +91,4 @@ export class ListHistorialPaciente implements OnInit {
     });
   }
 
-}*/
+}

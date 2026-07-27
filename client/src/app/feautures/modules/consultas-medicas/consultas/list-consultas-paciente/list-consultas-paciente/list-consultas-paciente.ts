@@ -1,6 +1,6 @@
-/*import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ConsultasService } from '../../../../../core/services/consultas/consultas.service';
+import { ConsultasService } from '../../../../../../core/services/consultas/consultas.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../../../../core/services/auth.service';
 import Swal from 'sweetalert2';
@@ -72,4 +72,4 @@ export class ListConsultasPaciente implements OnInit {
 
   
 }
-*/
+

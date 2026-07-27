@@ -1,4 +1,4 @@
-/*import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -46,4 +46,4 @@ updateTime() {
   this.currentTime = now.toLocaleTimeString();
 }
 
-}*/
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
-import { PersonalService } from '../../../../core/services/personal/personal-service';
+import { PersonalService } from '../../../../../core/services/personal/personal-service';
 import { CommonModule } from '@angular/common';
 
 @Component({

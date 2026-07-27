@@ -1,8 +1,8 @@
-/*import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { ConsultasService } from '../../../../../core/services/consultas-medicas/consultasService';
+import { ConsultasService } from '../../../../../core/services/consultas/consultas.service';
 import { AuthService } from '../../../../../core/services/auth.service';
 
 @Component({
@@ -105,4 +105,4 @@ idPaciente: number | string | null = null;
       });
     }
 
-}*/
+}

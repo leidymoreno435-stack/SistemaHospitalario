@@ -3,10 +3,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { ConsultasService } from '../../../../core/services/consultas/consultas.service';
-import { ConsultorioService } from '../../../../core/services/consultorio/consultorio-service';
-import { PersonalService } from '../../../../core/services/personal/personal-service';
-import { PacienteService } from '../../../../core/services/paciente/paciente-service';
+import { ConsultasService } from '../../../../../core/services/consultas/consultas.service';
+import { ConsultorioService } from '../../../../../core/services/consultorio/consultorio-service';
+import { PersonalService } from '../../../../../core/services/personal/personal-service';
+import { PacienteService } from '../../../../../core/services/paciente/paciente-service';
 
 @Component({
   selector: 'app-form-consultas',

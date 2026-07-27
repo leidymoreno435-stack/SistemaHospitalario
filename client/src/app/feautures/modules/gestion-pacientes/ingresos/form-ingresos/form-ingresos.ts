@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IngresoService } from '../../../../core/services/ingreso/ingreso-service';
-import { PacienteService } from '../../../../core/services/paciente/paciente-service';
-import { PersonalService } from '../../../../core/services/personal/personal-service';
-import { CamaService } from '../../../../core/services/cama/cama-service';
+import { IngresoService } from '../../../../../core/services/ingreso/ingreso-service';
+import { PacienteService } from '../../../../../core/services/paciente/paciente-service';
+import { PersonalService } from '../../../../../core/services/personal/personal-service';
+import { CamaService } from '../../../../../core/services/cama/cama-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 

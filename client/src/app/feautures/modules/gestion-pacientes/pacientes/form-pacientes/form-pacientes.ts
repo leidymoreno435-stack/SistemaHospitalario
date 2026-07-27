@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-//import { PacienteService } from '../../../../services/paciente/paciente-service';
+import { PacienteService } from '../../../../../core/services/paciente/paciente-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Pacient } from '../../../../../core/models/pacient';
@@ -14,14 +14,14 @@ import { AuthService } from '../../../../../core/services/auth.service';
   styleUrl: './form-pacientes.css',
 })
 export class FormPacientes {
-  /*
+
   form: any;
     isEditing = false;
     pacienteId: number | null = null;
   
     constructor(
       private fb: FormBuilder,
-      //private pacienteSrv: PacienteService,
+      private pacienteSrv: PacienteService,
       private router: Router,
       private route: ActivatedRoute,
       private auth: AuthService
@@ -47,7 +47,7 @@ export class FormPacientes {
           }
         } else {
           // Si no hay id y el usuario es paciente, cargar su propio registro
-         // const token = this.auth.getToken() || localStorage.getItem('authToken');
+          const token = this.auth.getToken() || localStorage.getItem('authToken');
           try {
             if (token) {
               const payload = JSON.parse(atob(token.split('.')[1]));
@@ -228,7 +228,7 @@ export class FormPacientes {
   
     volver() {
       this.router.navigate(['/pacientes']);
-    }*/
+    }
   }
   
 

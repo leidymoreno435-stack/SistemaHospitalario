@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { PersonalService } from '../../../../core/services/personal/personal-service';
+import { PersonalService } from '../../../../../core/services/personal/personal-service';
 import Swal from 'sweetalert2';
 
 @Component({
