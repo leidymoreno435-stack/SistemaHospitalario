@@ -1,14 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&display=swap');
 :root {
-    --body-color: #E4E9F7;
-    --sidebar-color: #FFBBB5;
-    --primary-color: #695CFE;
-    --primary-color-light: #E2DBFF;
-    --toggle-color: #DDD;
-    --text-color: #707070;
-    --tran-03: all 0.2s ease;
-    --tran-03: all 0.3s ease;
-    --tran-04: all 0.4s ease;
+    --sidebar-color: var(--surface);
+    --primary-color: var(--primary);
+    --primary-color-light: var(--bg-gradient-1);
+    --toggle-color: var(--border-color);
+    --text-color: var(--text-main);
+    --text-muted: var(--text-muted);
+    --tran-03: all var(--transition-fast);
+    --tran-04: all var(--transition-normal);
     --tran-05: all 0.5s ease;
 }
 
@@ -37,7 +36,6 @@
 
 body {
     min-height: 100vh;
-    background: linear-gradient(#FFE8E6 #91433c);
 }
 
 .sidebar {
@@ -47,7 +45,10 @@ body {
     width: 270px;
     height: 100vh;
     padding: 10px 14px;
-    background: #FFE8E6;
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid var(--border-color);
     transition: var(--tran-05);
     z-index: 100;
 }
@@ -78,11 +79,11 @@ body {
     right: 20px;
     height: 35px;
     width: 35px;
-    border: none;
+    border: 1px solid var(--border-color);
     cursor: pointer;
     display: flex;
     border-radius: 8px;
-    background: #FFF;
+    background: rgba(15, 23, 42, 0.6);
     align-items: center;
     justify-content: center;
     color: var(--text-color);
@@ -108,8 +109,8 @@ body {
 }
 
 .sidebar-header .sidebar-toggler:hover {
-    background: #FF938A;
-    color: var(--primary-color);
+    background: var(--primary);
+    color: white;
 }
 
 .sidebar.collapsed .sidebar-toggler {
@@ -136,7 +137,7 @@ body {
 }
 
 .sidebar-nav .nav-item .nav-link {
-    color: #000;
+    color: var(--text-color);
     display: flex;
     gap: 12px;
     cursor: pointer;
@@ -158,7 +159,9 @@ body {
 }
 
 .sidebar-nav .nav-item:hover>.nav-link {
-    background: #FF938A;
+    background: rgba(99, 102, 241, 0.15);
+    border-color: rgba(99, 102, 241, 0.3);
+    color: var(--text-main);
 }
 
 .sidebar-nav .nav-link {
@@ -246,7 +249,13 @@ body {
     font-size: 13px;
     /* Tamaño reducido para submenús - ajusta a tu preferencia */
     line-height: 1.4;
-    color: #333;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--tran-03);
+}
+
+.dropdown-menu li a:hover {
+    color: var(--primary);
 }
 
 
@@ -268,8 +277,11 @@ body {
     min-width: 200px;
     width: auto;
     padding: 8px 12px;
-    background: #FFF;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
     border-radius: 8px;
     z-index: 300;
     padding-left: 12px;
@@ -285,8 +297,11 @@ body {
     min-width: 200px;
     width: auto;
     padding: 8px 12px;
-    background: #FFF;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
     border-radius: 8px;
     z-index: 300;
     padding-left: 12px;

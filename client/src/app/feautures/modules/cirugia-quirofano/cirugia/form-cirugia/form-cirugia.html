@@ -1,1 +1,77 @@
-<p>form-cirugia works!</p>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">{{ isEditing ? 'Editar Cirugía' : 'Programar Cirugía' }}</h5>
+                </div>
+
+                <div class="card-body">
+                    <form [formGroup]="form" (ngSubmit)="guardar()">
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="id_ingreso" class="form-label">ID Ingreso</label>
+                                <input type="number" class="form-control" id="id_ingreso" formControlName="id_ingreso"
+                                       placeholder="ID del Ingreso" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_quirofano" class="form-label">ID Quirófano</label>
+                                <input type="number" class="form-control" id="id_quirofano" formControlName="id_quirofano"
+                                       placeholder="ID Quirófano" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="id_cirujano" class="form-label">ID Cirujano</label>
+                                <input type="number" class="form-control" id="id_cirujano" formControlName="id_cirujano"
+                                       placeholder="ID Cirujano" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="procedimiento" class="form-label">Procedimiento</label>
+                            <input type="text" class="form-control" id="procedimiento" formControlName="procedimiento"
+                                   placeholder="Descripción del Procedimiento" />
+                            <small *ngIf="form.get('procedimiento')?.invalid && form.get('procedimiento')?.touched" class="text-danger">
+                                El procedimiento es obligatorio.
+                            </small>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="fecha_programada" class="form-label">Fecha Programada</label>
+                                <input type="datetime-local" class="form-control" id="fecha_programada" formControlName="fecha_programada" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="fecha_realizacion" class="form-label">Fecha Realización</label>
+                                <input type="datetime-local" class="form-control" id="fecha_realizacion" formControlName="fecha_realizacion" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="estado" class="form-label">Estado</label>
+                                <select class="form-control" id="estado" formControlName="estado">
+                                    <option value="programada">Programada</option>
+                                    <option value="en_curso">En Curso</option>
+                                    <option value="completada">Completada</option>
+                                    <option value="cancelada">Cancelada</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="notas" class="form-label">Notas Adicionales</label>
+                            <textarea class="form-control" id="notas" formControlName="notas" rows="3" placeholder="Complicaciones, notas del cirujano..."></textarea>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+                                <i class="bi bi-check-circle"></i> {{ isEditing ? 'Actualizar' : 'Guardar' }}
+                            </button>
+                            <button type="button" class="btn btn-secondary" (click)="volver()">
+                                <i class="bi bi-arrow-left"></i> Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
