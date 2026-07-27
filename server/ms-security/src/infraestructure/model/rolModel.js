@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../../../../infraestructure/database/postgreSQL.js';
+import sequelize from '../database/postgres.js';
 
 const rolModel = sequelize.define('rol', {
     id_rol: {
