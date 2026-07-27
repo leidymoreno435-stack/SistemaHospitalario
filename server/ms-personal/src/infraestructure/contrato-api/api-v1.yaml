@@ -1,0 +1,228 @@
+openapi: 3.0.0
+
+info:
+  title: API de Personal
+  version: 1.0.0
+  description: Contrato de API para la gestión del personal usando arquitectura hexagonal en Node.js.
+
+servers:
+  - url: http://localhost:3001/api/v1
+
+tags:
+  - name: Personal
+    description: Operaciones relacionadas con el personal
+
+paths:
+  /personal:
+    get:
+      tags:
+        - Personal
+      summary: Listar personal
+      description: Obtiene la lista del personal registrado.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista del personal obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: string
+                    example: ok
+                  resultado:
+                    type: object
+                    properties:
+                      estado:
+                        type: string
+                        example: ok
+                      resultado:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Personal'
+
+    post:
+      tags:
+        - Personal
+      summary: Crear personal
+      description: Registra un nuevo integrante del personal.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrearPersonalRequest'
+      responses:
+        '200':
+          description: Personal creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  traceId:
+                    type: string
+                  resultado:
+                    type: object
+                    properties:
+                      estado:
+                        type: string
+                        example: ok
+                      resultado:
+                        type: string
+                        example: se guardó con éxito en la BD
+                  enlaces:
+                    type: object
+        '400':
+          description: Datos inválidos
+
+    delete:
+      tags:
+        - Personal
+      summary: Eliminar personal
+      description: Elimina un integrante del personal.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EliminarPersonalRequest'
+      responses:
+        '200':
+          description: Personal eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                  traceId:
+                    type: string
+                  resultado:
+                    type: object
+                  enlaces:
+                    type: object
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    Personal:
+      type: object
+      properties:
+
+        id_personal:
+          type: integer
+          example: 1
+
+        nombres:
+          type: string
+          example: Juan
+
+        apellidos:
+          type: string
+          example: Pérez
+
+        identificacion:
+          type: string
+          example: "0701234567"
+
+        id_usuario:
+          type: integer
+          example: 3
+
+        id_especialidad:
+          type: integer
+          example: 2
+
+        telefono:
+          type: string
+          example: "0999999999"
+
+        email:
+          type: string
+          format: email
+          example: juan@correo.com
+
+        activo:
+          type: boolean
+          example: true
+
+        creado_en:
+          type: string
+          format: date-time
+          example: "2026-07-27T10:30:00"
+
+    CrearPersonalRequest:
+      type: object
+      required:
+        - nombres
+        - apellidos
+        - identificacion
+        - id_usuario
+        - id_especialidad
+        - telefono
+        - email
+        - activo
+      properties:
+
+        nombres:
+          type: string
+          example: Juan
+
+        apellidos:
+          type: string
+          example: Pérez
+
+        identificacion:
+          type: string
+          example: "0701234567"
+
+        id_usuario:
+          type: integer
+          example: 3
+
+        id_especialidad:
+          type: integer
+          example: 2
+
+        telefono:
+          type: string
+          example: "0999999999"
+
+        email:
+          type: string
+          format: email
+          example: juan@correo.com
+
+        activo:
+          type: boolean
+          example: true
+
+        creado_en:
+          type: string
+          format: date-time
+          example: "2026-07-27T10:30:00"
+
+    EliminarPersonalRequest:
+      type: object
+      required:
+        - id_personal
+      properties:
+
+        id_personal:
+          type: integer
+          example: 1

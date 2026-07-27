@@ -8,11 +8,10 @@ import 'dotenv/config';
 import rateLimit from "express-rate-limit";
 import slowDown from "express-slow-down";
 
-import { traceMiddleWare } from './infraestructura/middleware/TraceMiddleware.js';
-import { timeMiddleware } from './infraestructura/middleware/TimeMiddleware.js';
-import { loggerMiddleware } from './infraestructura/middleware/LoggerMiddleware.js';
-import personalRuta from './infraestructura/rutas/moduloPersonalRutas.js'
-import ContrasenaHasher from './infraestructura/seguridad/ContrasenaHasher.js';
+import { traceMiddleWare } from '../../infraestructure/middleware/TraceMiddleware.js';
+import { timeMiddleware } from '../../infraestructure/middleware/TimeMiddleware.js';
+import { loggerMiddleWare } from '../../infraestructure/middleware/LoggerMiddleware.js';
+import personalRuta from './infraestructure/routes/personalRoutes.js'
 
 //Librerias Core
 const app = express();
@@ -20,14 +19,14 @@ app.use(cors());
 app.use(express.json())
 
 //Contratos
-const urlContrato = './src/infraestructura/contrato-api/api-v1.yaml';
+const urlContrato = './src/infraestructure/contrato-api/api-v1.yaml';
 const swaggerDocument = YAML.load(urlContrato);
 app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // MiddleWare 
 app.use(traceMiddleWare);
 app.use(timeMiddleware);
-app.use(loggerMiddleware)
+app.use(loggerMiddleWare)
 
 app.use(
     '/api/v1',
@@ -75,18 +74,18 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // rutas 
-app.use('/api/v1/personal', personalRuta);
+app.use('/api/v1', personalRuta);
 
 // Health Check
 app.get('/health', (req, res) => {
     res.json({
         status: "OK",
-        service: "API de estudiantes",
+        service: "API de personal",
         timestamp: new Date()
     });
 });
 
 //servidor
 app.listen(3001, () => {
-    console.log('Servidor usuario corriendo en puerto 3001')
+    console.log('Servidor personal corriendo en puerto 3001')
 })
