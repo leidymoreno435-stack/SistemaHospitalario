@@ -1,0 +1,89 @@
+import express from 'express';
+import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import OpenApiValidator from 'express-openapi-validator';
+import 'dotenv/config';
+
+import rateLimit from "express-rate-limit";
+import slowDown from "express-slow-down";
+
+import { traceMiddleWare } from './infraestructure/middleware/TraceMiddleware.js';
+import { timeMiddleware } from './infraestructure/middleware/TimeMiddleware.js';
+import { loggerMiddleWare } from './infraestructure/middleware/LoggerMiddleware.js';
+import consultaRuta from './infraestructure/routes/consultaRoutes.js';
+
+// Librerías Core
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// Contratos
+const urlContrato = './src/infraestructure/contrato-api/api-v1.yaml';
+const swaggerDocument = YAML.load(urlContrato);
+app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Middlewares
+app.use(traceMiddleWare);
+app.use(timeMiddleware);
+app.use(loggerMiddleWare);
+
+app.use(
+    '/api/v1',
+    OpenApiValidator.middleware({
+        apiSpec: urlContrato,
+        validateRequests: true,
+        validateResponses: false
+    })
+);
+
+// Telemetría
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    next();
+});
+
+// THROTTLING
+const speedLimiter = slowDown({
+    windowMs: 60 * 1000, // 1 minuto
+    delayAfter: 5,       // Permite 5 peticiones normales
+    delayMs: () => 500   // Agrega 500 ms de retraso por cada petición extra
+});
+
+app.use(speedLimiter);
+
+// RATE LIMITING
+const limiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minuto
+    limit: 10,
+    message: {
+        error: "Demasiadas solicitudes. Intente nuevamente en un minuto."
+    }
+});
+app.use(limiter);
+
+// Rutas
+app.use('/api/v1', consultaRuta);
+
+// Health Check
+app.get('/health', (req, res) => {
+    res.json({
+        status: "OK",
+        service: "API de consultas",
+        timestamp: new Date()
+    });
+});
+
+// Manejo de errores del contrato OpenAPI
+app.use((err, req, res, next) => {
+    res.status(err.status || 500).json({
+        mensaje: err.message,
+        errores: err.errors
+    });
+});
+
+// Servidor
+const PORT = process.env.PORT || 3004;
+app.listen(PORT, () => {
+    console.log(`Servidor ms-consultations corriendo en puerto ${PORT}`);
+});

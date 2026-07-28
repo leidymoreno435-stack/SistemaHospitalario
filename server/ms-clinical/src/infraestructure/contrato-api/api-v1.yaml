@@ -1,34 +1,62 @@
 openapi: 3.0.0
 
 info:
-  title: API de Pacientes
+  title: API de Consultas
   version: 1.0.0
-  description: Contrato de API para la gestión de pacientes usando arquitectura hexagonal en Node.js.
+  description: Contrato de API para la gestión de consultas médicas usando arquitectura hexagonal en Node.js.
 
 servers:
   - url: http://localhost:3002/api/v1
 
 tags:
-  - name: Patients
-    description: Operaciones relacionadas con pacientes
+  - name: Consultas
+    description: Operaciones relacionadas con la gestión de consultas médicas
 
 paths:
-  /patients:
+  /consultas:
 
     get:
       tags:
-        - Patients
-      summary: Listar pacientes
+        - Consultas
+      summary: Listar o filtrar consultas
       security:
         - bearerAuth: []
+      parameters:
+        - in: query
+          name: id_paciente
+          schema:
+            type: integer
+          description: Filtrar consultas por ID del paciente
+        - in: query
+          name: id_medico
+          schema:
+            type: integer
+          description: Filtrar consultas por ID del médico
+        - in: query
+          name: id_consultorio
+          schema:
+            type: integer
+          description: Filtrar consultas por ID del consultorio
+        - in: query
+          name: estado
+          schema:
+            type: string
+            enum: [PROGRAMADA, ATENDIDA, CANCELADA]
+          description: Filtrar por estado de la consulta
+        - in: query
+          name: fecha_programada
+          schema:
+            type: string
+            format: date-time
+          description: Filtrar por fecha programada
       responses:
         '200':
-          description: Lista de pacientes obtenida correctamente
+          description: Lista de consultas obtenida correctamente
 
     post:
       tags:
-        - Patients
-      summary: Registrar paciente
+        - Consultas
+      summary: Agendar/Registrar consulta
       security:
         - bearerAuth: []
       requestBody:
@@ -36,15 +64,31 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CrearPacienteRequest'
+              $ref: '#/components/schemas/CrearConsultaRequest'
       responses:
         '201':
-          description: Paciente registrado correctamente
+          description: Consulta registrada correctamente
+
+    put:
+      tags:
+        - Consultas
+      summary: Actualizar consulta
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualizarConsultaRequest'
+      responses:
+        '200':
+          description: Consulta actualizada correctamente
 
     delete:
       tags:
-        - Patients
-      summary: Eliminar paciente
+        - Consultas
+      summary: Eliminar consulta
       security:
         - bearerAuth: []
       requestBody:
@@ -52,10 +96,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EliminarPacienteRequest'
+              $ref: '#/components/schemas/EliminarConsultaRequest'
       responses:
         '200':
-          description: Paciente eliminado correctamente
+          description: Consulta eliminada correctamente
 
 components:
 
@@ -67,78 +111,170 @@ components:
 
   schemas:
 
-    Patient:
+    Consulta:
       type: object
+      properties:
+
+        id_consulta:
+          type: integer
+          example: 1
+
+        id_paciente:
+          type: integer
+          example: 10
+
+        id_medico:
+          type: integer
+          example: 5
+
+        id_consultorio:
+          type: integer
+          example: 2
+
+        motivo:
+          type: string
+          example: "Dolor abdominal agudo"
+
+        observaciones:
+          type: string
+          example: "Se prescribe tratamiento inicial y reposo"
+
+        estado:
+          type: string
+          enum: [PROGRAMADA, ATENDIDA, CANCELADA]
+          example: "PROGRAMADA"
+
+        fecha_programada:
+          type: string
+          format: date-time
+          example: "2026-08-01T09:00:00Z"
+
+        fecha_realizacion:
+          type: string
+          format: date-time
+          example: "2026-08-01T09:15:00Z"
+
+        duracion_min:
+          type: integer
+          example: 30
+
+        tarifa:
+          type: number
+          format: float
+          example: 45.00
+
+        creado_en:
+          type: string
+          format: date-time
+          example: "2026-07-28T15:30:00Z"
+
+    CrearConsultaRequest:
+      type: object
+      required:
+        - id_paciente
+        - id_medico
+        - fecha_programada
       properties:
 
         id_paciente:
           type: integer
+          example: 10
+
+        id_medico:
+          type: integer
+          example: 5
+
+        id_consultorio:
+          type: integer
+          example: 2
+
+        motivo:
+          type: string
+          example: "Consulta de control rutina"
+
+        observaciones:
+          type: string
+          example: "Paciente acude a chequeo preventivo"
+
+        estado:
+          type: string
+          enum: [PROGRAMADA, ATENDIDA, CANCELADA]
+          example: "PROGRAMADA"
+
+        fecha_programada:
+          type: string
+          format: date-time
+          example: "2026-08-01T09:00:00Z"
+
+        duracion_min:
+          type: integer
+          example: 30
+
+        tarifa:
+          type: number
+          format: float
+          example: 45.00
+
+    ActualizarConsultaRequest:
+      type: object
+      required:
+        - id_consulta
+      properties:
+
+        id_consulta:
+          type: integer
           example: 1
 
-        nombre:
-          type: string
-          example: Juan
-
-        apellido:
-          type: string
-          example: Pérez
-
-        cedula:
-          type: string
-          example: "0701234567"
-
-        fecha_nacimiento:
-          type: string
-          format: date
-          example: "2000-05-15"
-
-        telefono:
-          type: string
-          example: "0999999999"
-
-        direccion:
-          type: string
-          example: "Machala, El Oro"
-
-    CrearPacienteRequest:
-      type: object
-      required:
-        - nombre
-        - apellido
-        - cedula
-      properties:
-
-        nombre:
-          type: string
-          example: Juan
-
-        apellido:
-          type: string
-          example: Pérez
-
-        cedula:
-          type: string
-          example: "0701234567"
-
-        fecha_nacimiento:
-          type: string
-          format: date
-          example: "2000-05-15"
-
-        telefono:
-          type: string
-          example: "0999999999"
-
-        direccion:
-          type: string
-          example: "Machala, El Oro"
-
-    EliminarPacienteRequest:
-      type: object
-      required:
-        - id_paciente
-      properties:
-
         id_paciente:
+          type: integer
+          example: 10
+
+        id_medico:
+          type: integer
+          example: 5
+
+        id_consultorio:
+          type: integer
+          example: 2
+
+        motivo:
+          type: string
+          example: "Consulta de control rutina"
+
+        observaciones:
+          type: string
+          example: "Consulta finalizada, paciente en buen estado"
+
+        estado:
+          type: string
+          enum: [PROGRAMADA, ATENDIDA, CANCELADA]
+          example: "ATENDIDA"
+
+        fecha_programada:
+          type: string
+          format: date-time
+          example: "2026-08-01T09:00:00Z"
+
+        fecha_realizacion:
+          type: string
+          format: date-time
+          example: "2026-08-01T09:15:00Z"
+
+        duracion_min:
+          type: integer
+          example: 30
+
+        tarifa:
+          type: number
+          format: float
+          example: 45.00
+
+    EliminarConsultaRequest:
+      type: object
+      required:
+        - id_consulta
+      properties:
+
+        id_consulta:
           type: integer
           example: 1
