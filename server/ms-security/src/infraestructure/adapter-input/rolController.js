@@ -23,7 +23,7 @@ export default class rolController extends rolInputPort {
         console.log("Ingresamos al controlador con: " + idRequest + dtoRol.getNombre());
 
         const resultado = await this.rolCommandUsesCase.create(dtoRol);
-        res.status(200).json({
+        res.status(201).json({
             traceId: idRequest,
             resultado: resultado,
             enlaces: {

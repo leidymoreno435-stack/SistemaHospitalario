@@ -10,7 +10,8 @@ const UsuarioModel = sequelize.define('usuario', {
     },
     username: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     password_hash: {
         type: DataTypes.STRING,
@@ -22,24 +23,17 @@ const UsuarioModel = sequelize.define('usuario', {
     },
     activo: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        defaultValue: true
     },
     fecha_creacion: {
         type: DataTypes.DATE,
-        allowNull: false
-    },
-    delete_at: {
-        type: DataTypes.DATE,
-        allowNull: true
+        defaultValue: DataTypes.NOW
     }
-
 }, {
     tableName: 'usuarios',
     schema: 'public',
-    timestamps: true,
-    deletedAt: 'delete_at',
-    freezeTableName: true,
-    paranoid: true
+    timestamps: false,
+    freezeTableName: true
 });
 export { sequelize };
 export default UsuarioModel;
