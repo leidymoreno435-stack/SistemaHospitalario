@@ -1,5 +1,5 @@
 import consultaQueryOutput from "../../../application/ports/output/query/consultaQueryOutput.js";
-import ConsultaFilter from "../../../domain/entities/consultaFilter.js";
+import ConsultaFilter from "../../../domain/filters/consultaFilter.js";
 import consultaModel from "../../base-dato/orm/consultaModel.js";
 
 export default class consultaMYSQLQueryAdapter extends consultaQueryOutput {

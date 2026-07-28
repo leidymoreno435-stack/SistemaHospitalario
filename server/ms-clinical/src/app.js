@@ -85,5 +85,5 @@ app.use((err, req, res, next) => {
 // Servidor
 const PORT = process.env.PORT || 3004;
 app.listen(PORT, () => {
-    console.log(`Servidor ms-consultations corriendo en puerto ${PORT}`);
+    console.log(`Servidor ms-clinical corriendo en puerto ${PORT}`);
 });

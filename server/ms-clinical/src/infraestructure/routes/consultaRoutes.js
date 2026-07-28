@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/consultas', consultaController.read);
 router.post('/consultas', consultaController.create);
-router.put('/consultas', consultaController.update);
+router.patch('/consultas', consultaController.update);
 router.delete('/consultas', consultaController.delete);
 
 export default router;

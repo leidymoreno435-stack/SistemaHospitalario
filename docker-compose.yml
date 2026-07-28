@@ -13,6 +13,10 @@ services:
     container_name: api-gateway
     ports:
       - "8080:8080"
+    volumes:
+      - ./server/api-gateway:/app
+      - /app/node_modules
+    command: npm run dev
     networks:
       - hospital_net
     depends_on:
@@ -27,22 +31,30 @@ services:
       - FRONTEND_URL=http://localhost:5173
 
   # ==================================
-  # MICROSERVICIOS INTERNOS (Sin puertos expuestos)
+  # MICROSERVICIOS
   # ==================================
   ms-security:
     build: ./server/ms-security
     container_name: ms-security
+    volumes:
+      - ./server/ms-security:/app
+      - /app/node_modules
+    command: npm run dev
+    env_file:
+      - ./server/ms-security/.env
     networks:
       - hospital_net
     depends_on:
       postgres:
         condition: service_healthy
-    env_file:
-      - ./server/ms-security/.env
 
   ms-patients:
     build: ./server/ms-patients
     container_name: ms-patients
+    volumes:
+      - ./server/ms-patients:/app
+      - /app/node_modules
+    command: npm run dev
     networks:
       - hospital_net
     depends_on:
@@ -52,6 +64,10 @@ services:
   ms-personal:
     build: ./server/ms-personal
     container_name: ms-personal
+    volumes:
+      - ./server/ms-personal:/app
+      - /app/node_modules
+    command: npm run dev
     env_file:
       - ./server/ms-personal/.env
     networks:
@@ -63,6 +79,10 @@ services:
   ms-clinical:
     build: ./server/ms-clinical
     container_name: ms-clinical
+    volumes:
+      - ./server/ms-clinical:/app
+      - /app/node_modules
+    command: npm run dev
     networks:
       - hospital_net
     depends_on:
@@ -72,6 +92,10 @@ services:
   ms-billing:
     build: ./server/ms-billing
     container_name: ms-billing
+    volumes:
+      - ./server/ms-billing:/app
+      - /app/node_modules
+    command: npm run dev
     networks:
       - hospital_net
     depends_on:
@@ -86,13 +110,17 @@ services:
     container_name: client
     ports:
       - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    command: npm run dev -- --host
     networks:
       - hospital_net
     depends_on:
       - api-gateway
 
   # ==================================
-  # BASE DE DATOS COMPARTIDA
+  # POSTGRES
   # ==================================
   postgres:
     image: postgres:16

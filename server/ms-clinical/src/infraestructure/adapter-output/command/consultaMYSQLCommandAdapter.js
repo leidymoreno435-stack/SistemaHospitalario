@@ -1,17 +1,18 @@
-import { Transaction } from "sequelize";
+import { Transaction, Op } from "sequelize"; // 👈 1. Importamos 'Op'
 import consultaCommandOutput from "../../../application/ports/output/command/consultaCommandOutput.js";
 import consultaModel, { sequelize } from "../../base-dato/orm/consultaModel.js";
 
 export default class consultaMYSQLCommandAdapter extends consultaCommandOutput {
 
     // CREATE
-    create = async (consulta) => {
+    create = async(consulta) => {
 
         const idPaciente = consulta.getId_paciente();
         const idMedico = consulta.getId_medico();
+        const fechaProgramada = consulta.getFecha_programada();
 
-        if (!idPaciente || !idMedico) {
-            throw new Error("Error en la validación: id_paciente e id_medico son obligatorios");
+        if (!idPaciente || !idMedico || !fechaProgramada) {
+            throw new Error("Error en la validación: id_paciente, id_medico y fecha_programada son obligatorios");
         }
 
         const transaction = await sequelize.transaction({
@@ -20,13 +21,27 @@ export default class consultaMYSQLCommandAdapter extends consultaCommandOutput {
 
         try {
 
+            // 1. Control de duplicados:
+            const citaExistente = await consultaModel.findOne({
+                where: {
+                    id_medico: idMedico,
+                    fecha_programada: fechaProgramada
+                },
+                transaction
+            });
+
+            if (citaExistente) {
+                throw new Error("Ya existe una consulta agendada para este médico en la misma fecha y hora.");
+            }
+
+            // 2. Creación del registro
             const nuevaConsulta = await consultaModel.create({
                 id_paciente: consulta.getId_paciente(),
                 id_medico: consulta.getId_medico(),
                 id_consultorio: consulta.getId_consultorio(),
                 motivo: consulta.getMotivo(),
                 observaciones: consulta.getObservaciones(),
-                estado: consulta.getEstado(),
+                estado: consulta.getEstado() || "programada",
                 fecha_programada: consulta.getFecha_programada(),
                 fecha_realizacion: consulta.getFecha_realizacion(),
                 duracion_min: consulta.getDuracion_min(),
@@ -56,7 +71,7 @@ export default class consultaMYSQLCommandAdapter extends consultaCommandOutput {
     }
 
     // UPDATE
-    update = async (consulta) => {
+    update = async(consulta) => {
 
         const id = consulta.getId_consulta();
 
@@ -76,6 +91,28 @@ export default class consultaMYSQLCommandAdapter extends consultaCommandOutput {
                 throw new Error("Consulta no encontrada");
             }
 
+            // 2. Determinar médico y fecha objetivo (usar el nuevo dato o mantener el que ya tenía)
+            const medicoObjetivo = consulta.getId_medico() ?? consultaEncontrada.id_medico;
+            const fechaObjetiva = consulta.getFecha_programada() ?? consultaEncontrada.fecha_programada;
+
+            // 3. Control de duplicados en UPDATE:
+            // Busca si OTRO registro (id_consulta != id) ya ocupa al médico en ese horario
+            const citaExistente = await consultaModel.findOne({
+                where: {
+                    id_medico: medicoObjetivo,
+                    fecha_programada: fechaObjetiva,
+                    id_consulta: {
+                        [Op.ne]: id
+                    } // Excluye la consulta que estamos editando
+                },
+                transaction
+            });
+
+            if (citaExistente) {
+                throw new Error("Ya existe una consulta agendada para este médico en la misma fecha y hora.");
+            }
+
+            // 4. Actualización
             await consultaEncontrada.update({
                 id_paciente: consulta.getId_paciente() ?? consultaEncontrada.id_paciente,
                 id_medico: consulta.getId_medico() ?? consultaEncontrada.id_medico,
@@ -110,12 +147,12 @@ export default class consultaMYSQLCommandAdapter extends consultaCommandOutput {
     }
 
     // DELETE
-    delete = async (consulta) => {
+    delete = async(consulta) => {
 
         const id = consulta.getId_consulta();
 
         if (!id) {
-            throw new Error("Error en la validación");
+            throw new Error("Error en la validación: Se requiere id_consulta");
         }
 
         const transaction = await sequelize.transaction({

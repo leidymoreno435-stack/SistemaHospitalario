@@ -7,7 +7,7 @@ export default class consultaCommandUseCase {
 
     async create(consultaDTO) {
         const consulta = new Consulta(
-            null, // El ID se autonumera en la BD
+            null,
             consultaDTO.getId_paciente(),
             consultaDTO.getId_medico(),
             consultaDTO.getId_consultorio(),
@@ -25,10 +25,8 @@ export default class consultaCommandUseCase {
 
         console.log("Ingreso al caso de uso - Consulta (Create)");
 
-        return {
-            estado: "ok",
-            resultado: result.resultado
-        };
+        // ✅ Retornar el resultado tal como lo entrega el adaptador (conserva estado: "error")
+        return result;
     }
 
     async update(consultaDTO) {
@@ -49,30 +47,17 @@ export default class consultaCommandUseCase {
 
         const result = await this.adaptadorBDSalida.update(consulta);
 
-        console.log("Ingreso al caso de uso - Consulta (Update)");
-
-        return {
-            estado: "ok",
-            resultado: result.resultado
-        };
+        return result;
     }
 
     async delete(consultaDTO) {
         const id = consultaDTO.getId_consulta();
-
-        // Se pasa la entidad con el ID a eliminar y el resto de campos nulos
         const consulta = new Consulta(
-            id,
-            null, null, null, null, null, null, null, null, null, null, null
+            id, null, null, null, null, null, null, null, null, null, null, null
         );
 
         const result = await this.adaptadorBDSalida.delete(consulta);
 
-        console.log("Ingreso al caso de uso - Consulta (Delete)");
-
-        return {
-            estado: "ok",
-            resultado: result.resultado
-        };
+        return result;
     }
 }

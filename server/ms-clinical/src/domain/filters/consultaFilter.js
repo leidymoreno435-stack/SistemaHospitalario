@@ -1,4 +1,4 @@
-export default class ConsultaFilter {
+export default class consultaFilter {
     constructor(id_paciente,id_medico,id_consultorio,estado,fecha_programada) 
     {
         this.id_paciente = id_paciente;
