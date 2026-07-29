@@ -10,20 +10,51 @@ servers:
 
 tags:
   - name: Personal
-    description: Operaciones relacionadas con el personal
+    description: Operaciones relacionadas con la gestión de personal
 
 paths:
   /personal:
     get:
       tags:
         - Personal
-      summary: Listar personal
-      description: Obtiene la lista del personal registrado.
+      summary: Listar o filtrar personal
+      description: Obtiene la lista del personal registrado con opción de filtrado por query parameters.
       security:
         - bearerAuth: []
+      parameters:
+        - in: query
+          name: id_personal
+          schema:
+            type: integer
+          description: ID del personal a buscar
+        - in: query
+          name: nombres
+          schema:
+            type: string
+          description: Nombre o coincidencia parcial
+        - in: query
+          name: apellidos
+          schema:
+            type: string
+          description: Apellido o coincidencia parcial
+        - in: query
+          name: identificacion
+          schema:
+            type: string
+          description: Número de cédula o documento
+        - in: query
+          name: id_especialidad
+          schema:
+            type: integer
+          description: ID de la especialidad asociada
+        - in: query
+          name: activo
+          schema:
+            type: boolean
+          description: Estado activo/inactivo
       responses:
         '200':
-          description: Lista del personal obtenida correctamente
+          description: Lista de personal obtenida correctamente
           content:
             application/json:
               schema:
@@ -32,16 +63,19 @@ paths:
                   estado:
                     type: string
                     example: ok
+                  traceId:
+                    type: string
+                    example: "req-12345"
                   resultado:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Personal'
+                  enlaces:
                     type: object
-                    properties:
-                      estado:
-                        type: string
-                        example: ok
-                      resultado:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Personal'
+                    example:
+                      post: "/personal"
+                      patch: "/personal"
+                      delete: "/personal"
 
     post:
       tags:
@@ -57,34 +91,80 @@ paths:
             schema:
               $ref: '#/components/schemas/CrearPersonalRequest'
       responses:
-        '200':
+        '201':
           description: Personal creado correctamente
           content:
             application/json:
               schema:
                 type: object
                 properties:
+                  estado:
+                    type: string
+                    example: ok
                   traceId:
                     type: string
+                    example: "req-12345"
                   resultado:
-                    type: object
-                    properties:
-                      estado:
-                        type: string
-                        example: ok
-                      resultado:
-                        type: string
-                        example: se guardó con éxito en la BD
+                    type: string
+                    example: "Se guardó con éxito en la BD: Pedro"
                   enlaces:
                     type: object
+                    example:
+                      get: "/personal"
+                      patch: "/personal"
+                      delete: "/personal"
         '400':
-          description: Datos inválidos
+          description: Datos obligatorios faltantes o inválidos
+        '409':
+          description: Registro duplicado (cédula/identificación ya existente)
+
+    patch:
+      tags:
+        - Personal
+      summary: Actualizar personal
+      description: Modifica la información de un integrante del personal existente.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualizarPersonalRequest'
+      responses:
+        '200':
+          description: Personal actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Personal actualizado correctamente
+                  traceId:
+                    type: string
+                    example: "req-12345"
+                  resultado:
+                    type: string
+                    example: "Se actualizó con éxito el personal con ID: 1"
+                  enlaces:
+                    type: object
+                    example:
+                      get: "/personal"
+                      delete: "/personal"
+        '400':
+          description: Datos inválidos o ID no proporcionado
+        '404':
+          description: Personal no encontrado
+        '409':
+          description: Conflicto de duplicidad en identificación
 
     delete:
       tags:
         - Personal
       summary: Eliminar personal
-      description: Elimina un integrante del personal.
+      description: Elimina un integrante del personal registrado.
       security:
         - bearerAuth: []
       requestBody:
@@ -103,15 +183,22 @@ paths:
                 properties:
                   mensaje:
                     type: string
+                    example: Petición recibida correctamente
                   traceId:
                     type: string
+                    example: "req-12345"
                   resultado:
-                    type: object
+                    type: string
+                    example: "Se eliminó con éxito en la BD el ID: 1"
                   enlaces:
                     type: object
+                    example:
+                      get: "/personal"
+                      post: "/personal"
+        '404':
+          description: Personal no encontrado
 
 components:
-
   securitySchemes:
     bearerAuth:
       type: http
@@ -119,52 +206,42 @@ components:
       bearerFormat: JWT
 
   schemas:
-
     Personal:
       type: object
       properties:
-
         id_personal:
           type: integer
           example: 1
-
         nombres:
           type: string
-          example: Juan
-
+          example: Pedro
         apellidos:
           type: string
-          example: Pérez
-
+          example: González
         identificacion:
           type: string
-          example: "0701234567"
-
+          example: "1712345678"
         id_usuario:
           type: integer
-          example: 3
-
+          example: 1
         id_especialidad:
           type: integer
-          example: 2
-
+          nullable: true
+          example: 25
         telefono:
           type: string
-          example: "0999999999"
-
+          example: "0991234567"
         email:
           type: string
           format: email
-          example: juan@correo.com
-
+          example: pedro.admin@hospital.com
         activo:
           type: boolean
           example: true
-
         creado_en:
           type: string
           format: date-time
-          example: "2026-07-27T10:30:00"
+          example: "2025-11-06T11:00:00.000Z"
 
     CrearPersonalRequest:
       type: object
@@ -172,57 +249,72 @@ components:
         - nombres
         - apellidos
         - identificacion
-        - id_usuario
-        - id_especialidad
-        - telefono
-        - email
-        - activo
       properties:
-
         nombres:
           type: string
-          example: Juan
-
+          example: Pedro
         apellidos:
           type: string
-          example: Pérez
-
+          example: González
         identificacion:
           type: string
-          example: "0701234567"
-
+          example: "1712345678"
         id_usuario:
           type: integer
-          example: 3
-
+          example: 1
         id_especialidad:
           type: integer
-          example: 2
-
+          example: 25
         telefono:
           type: string
-          example: "0999999999"
-
+          example: "0991234567"
         email:
           type: string
           format: email
-          example: juan@correo.com
-
+          example: pedro.admin@hospital.com
         activo:
           type: boolean
           example: true
 
-        creado_en:
+    ActualizarPersonalRequest:
+      type: object
+      required:
+        - id_personal
+      properties:
+        id_personal:
+          type: integer
+          example: 1
+        nombres:
           type: string
-          format: date-time
-          example: "2026-07-27T10:30:00"
+          example: Pedro
+        apellidos:
+          type: string
+          example: González
+        identificacion:
+          type: string
+          example: "1712345678"
+        id_usuario:
+          type: integer
+          example: 1
+        id_especialidad:
+          type: integer
+          example: 25
+        telefono:
+          type: string
+          example: "0991234567"
+        email:
+          type: string
+          format: email
+          example: pedro.admin@hospital.com
+        activo:
+          type: boolean
+          example: true
 
     EliminarPersonalRequest:
       type: object
       required:
         - id_personal
       properties:
-
         id_personal:
           type: integer
           example: 1

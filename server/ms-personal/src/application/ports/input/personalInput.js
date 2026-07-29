@@ -1,14 +1,14 @@
 export default class personalInput {
-    create(req, resp) {
+    create(personalDTO) {
         throw new Error("Method not implemented");
     }
-    read(req, resp) {
+    read(filter = []) {
         throw new Error("Method not implemented");
     }
-    update(req, resp) {
+    update(personalDTO) {
         throw new Error("Method not implemented");
     }
-    delete(req, resp) {
+    delete(personalDTO) {
         throw new Error("Method not implemented");
     }
 }
