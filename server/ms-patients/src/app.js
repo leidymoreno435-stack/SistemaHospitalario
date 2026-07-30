@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 import express from 'express'
 import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
 import OpenApiValidator from 'express-openapi-validator'
 
+=======
+import express from 'express';
+import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import OpenApiValidator from 'express-openapi-validator';
+import 'dotenv/config';
+>>>>>>> 0d9d72c5b2672db31ec3ec3bbb62a6ad85fcf7b6
 
 import rateLimit from "express-rate-limit";
 import slowDown from "express-slow-down";
@@ -11,22 +20,24 @@ import slowDown from "express-slow-down";
 import { traceMiddleWare } from './infraestructure/middleware/TraceMiddleware.js';
 import { timeMiddleware } from './infraestructure/middleware/TimeMiddleware.js';
 import { loggerMiddleWare } from './infraestructure/middleware/LoggerMiddleware.js';
-import patientRuta from './infraestructure/routes/patientRoutes.js'
+import patientRuta from './infraestructure/routes/patientRoutes.js';
 
-//Librerias Core
+// Librerias Core
 const app = express();
-app.use(cors());
-app.use(express.json())
+const PORT = process.env.PORT || 3002;
 
-//Contratos
+app.use(cors());
+app.use(express.json());
+
+// Contratos
 const urlContrato = './src/infraestructure/contrato-api/api-v1.yaml';
 const swaggerDocument = YAML.load(urlContrato);
 app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// MiddleWare 
+// Middlewares
 app.use(traceMiddleWare);
 app.use(timeMiddleware);
-app.use(loggerMiddleWare)
+app.use(loggerMiddleWare);
 
 app.use(
     '/api/v1',
@@ -35,9 +46,9 @@ app.use(
         validateRequests: true,
         validateResponses: false
     })
-)
+);
 
-//telemetria
+// Telemetría
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
     next();
@@ -64,7 +75,7 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// rutas 
+// Rutas
 app.use('/api/v1', patientRuta);
 
 // Health Check
@@ -76,14 +87,20 @@ app.get('/health', (req, res) => {
     });
 });
 
-
-// Manejo de errores del contrato OpenAPI
+// Manejo de errores del contrato OpenAPI (siempre al final de las rutas)
 app.use((err, req, res, next) => {
     res.status(err.status || 500).json({
         mensaje: err.message,
         errores: err.errors
-    })
-})
+    });
+});
 
+<<<<<<< HEAD
 
 export default app;
+=======
+// Servidor
+app.listen(PORT, () => {
+    console.log(`Servidor patient corriendo en puerto ${PORT}`);
+});
+>>>>>>> 0d9d72c5b2672db31ec3ec3bbb62a6ad85fcf7b6
