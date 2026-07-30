@@ -1,13 +1,7 @@
-export default class PersonalQueryUseCase {
-    constructor(adaptadorBDSalida) {
-        this.adaptadorBDSalida = adaptadorBDSalida;
+export default class personalQueryUsesCase {
+    constructor(personalQueryOutput) {
+        this.personalQueryOutput = personalQueryOutput;
     }
-
-    async read(filter = []) {
-        const result = await this.adaptadorBDSalida.read(filter);
-        return {
-            estado: "ok",
-            resultado: result
-        };
-    }
+    read() { return this.personalQueryOutput.read(); }
+    readById(id) { return this.personalQueryOutput.readById(id); }
 }

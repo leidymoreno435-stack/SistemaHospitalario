@@ -9,70 +9,50 @@ export default class patientController extends patientInputPort {
     }
 
     create = async (req, res) => {
-
-        const idRequest = req.traceId;
-        const datos = req.body;
-
-        if (req.headers.accept && !req.headers.accept.includes("application/json")) {
-            return res.status(400).json({
-                error: "El encabezado Accept debe incluir application/json"
-            });
-        }
-
-        const dtoPatient = new patientDTO(datos);
-
-        console.log("Ingresamos al controlador con: " + idRequest + " " + dtoPatient.getNombres());
-
-        const resultado = await this.patientCommandUseCase.create(dtoPatient);
-
-        res.status(201).json({
-            traceId: idRequest,
-            resultado,
-            enlaces: {
-                get: "/patients",
-                delete: "/patients"
-            }
-        });
+        try {
+            const dto = new patientDTO(req.body);
+            const result = await this.patientCommandUseCase.create(dto);
+            res.status(201).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
     };
 
     read = async (req, res) => {
+        try {
+            const result = await this.patientQueryUseCase.read();
+            res.status(200).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
+    };
 
-        const resultado = await this.patientQueryUseCase.read();
+    readById = async (req, res) => {
+        try {
+            const result = await this.patientQueryUseCase.readById(req.params.id);
+            if(!result) return res.status(404).json({ error: "No encontrado" });
+            res.status(200).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
+    };
 
-        res.status(200).json({
-            estado: "ok",
-            resultado,
-            enlaces: {
-                post: "/patients",
-                delete: "/patients"
-            }
-        });
+    update = async (req, res) => {
+        try {
+            const dto = new patientDTO(req.body);
+            const result = await this.patientCommandUseCase.update(req.params.id, dto);
+            res.status(200).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
+    };
+
+    patch = async (req, res) => {
+        try {
+            const dto = new patientDTO(req.body); // Will have undefined for missing
+            // Clean undefined from object so we only update sent fields
+            Object.keys(dto).forEach(key => dto[key] === undefined && delete dto[key]);
+            const result = await this.patientCommandUseCase.patch(req.params.id, dto);
+            res.status(200).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
     };
 
     delete = async (req, res) => {
-
-        const idRequest = req.traceId;
-        const datos = req.body;
-
-        if (req.headers.accept && !req.headers.accept.includes("application/json")) {
-            return res.status(400).json({
-                error: "El encabezado Accept debe incluir application/json"
-            });
-        }
-
-        const dtoPatient = new patientDTO(datos);
-
-        console.log("Ingresamos al controlador con: " + idRequest);
-
-        const resultado = await this.patientCommandUseCase.delete(dtoPatient);
-
-        res.status(200).json({
-            mensaje: "Petición recibida correctamente",
-            traceId: idRequest,
-            resultado,
-            enlaces: {
-                get: "/patients"
-            }
-        });
+        try {
+            const result = await this.patientCommandUseCase.delete(req.params.id);
+            res.status(200).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
     };
 }

@@ -1,6 +1,6 @@
 import { Transaction } from "sequelize";
 import patientCommandOutput from "../../../application/ports/output/command/patientCommandOutput.js";
-import patientModel, { sequelize } from "../../base-dato/orm/patientModel.js";
+import patientModel, { sequelize } from "../../model/patientModel.js";
 
 export default class patientMYSQLCommandAdapter extends patientCommandOutput {
 

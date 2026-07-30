@@ -1,6 +1,6 @@
 import { Transaction, Op } from "sequelize";
 import personalCommandOutput from "../../../application/ports/output/command/personalCommandOutput.js";
-import personalModel, { sequelize } from '../../base-dato/orm/personalModel.js';
+import personalModel, { sequelize } from '../../model/personalModel.js';
 
 export default class personalMYSQLCommandAdapter extends personalCommandOutput {
 

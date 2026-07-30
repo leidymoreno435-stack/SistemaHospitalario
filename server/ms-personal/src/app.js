@@ -3,7 +3,7 @@ import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
 import OpenApiValidator from 'express-openapi-validator'
-import 'dotenv/config';
+
 
 import rateLimit from "express-rate-limit";
 import slowDown from "express-slow-down";
@@ -86,7 +86,4 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Servidor
-app.listen(3001, () => {
-    console.log('Servidor corriendo en puerto 3001');
-});
+export default app;

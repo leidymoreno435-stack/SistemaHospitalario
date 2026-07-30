@@ -1,6 +1,6 @@
 import { Transaction, Op } from "sequelize";
 import specialtyCommandOutput from "../../../application/ports/output/command/specialtyCommandOutput.js";
-import specialtyModel, { sequelize } from '../../base-dato/orm/specialtyModel.js';
+import specialtyModel, { sequelize } from '../../model/specialtyModel.js';
 
 export default class specialtyMYSQLCommandAdapter extends specialtyCommandOutput {
 

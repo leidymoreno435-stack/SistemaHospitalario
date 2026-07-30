@@ -1,12 +1,13 @@
-import { Router } from 'express';
-import { patientController } from '../conteiner/patientConteiner.js';
+import { Router } from "express";
+import { patientContainer } from "../conteiner/patientContainer.js";
 
 const router = Router();
 
-router.get('/patients', patientController.read);
-router.post('/patients', patientController.create);
-router.delete('/patients', patientController.delete);
-//router.get('/patients/:id', getPatientById);
-//router.put('/patients/:id', updatePatient);
+router.post('/patient', patientContainer.create);
+router.get('/patient', patientContainer.read);
+router.get('/patient/:id', patientContainer.readById);
+router.put('/patient/:id', patientContainer.update);
+router.patch('/patient/:id', patientContainer.patch);
+router.delete('/patient/:id', patientContainer.delete);
 
 export default router;

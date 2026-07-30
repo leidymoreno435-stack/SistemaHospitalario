@@ -1,13 +1,7 @@
 export default class patientQueryUsesCase {
-    constructor(adaptadorBDSalida) {
-        this.adaptadorBDSalida = adaptadorBDSalida;
+    constructor(patientQueryOutput) {
+        this.patientQueryOutput = patientQueryOutput;
     }
-    async read() {
-        const filter = [];
-        const result = await this.adaptadorBDSalida.read(filter);
-        return {
-            estado: "ok",
-            resultado: result
-        }
-    }
+    read() { return this.patientQueryOutput.read(); }
+    readById(id) { return this.patientQueryOutput.readById(id); }
 }

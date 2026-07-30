@@ -3,7 +3,7 @@ import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
 import OpenApiValidator from 'express-openapi-validator'
-import 'dotenv/config';
+
 
 import rateLimit from "express-rate-limit";
 import slowDown from "express-slow-down";
@@ -86,7 +86,4 @@ app.use((err, req, res, next) => {
 })
 
 
-//servidor
-app.listen(3002, () => {
-    console.log('Servidor patient corriendo en puerto 3002')
-})
+export default app;
