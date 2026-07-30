@@ -20,6 +20,13 @@ export default class patientController extends patientInputPort {
 
     // CREATE
     create = async (req, res) => {
+<<<<<<< HEAD
+        try {
+            const dto = new patientDTO(req.body);
+            const result = await this.patientCommandUseCase.create(dto);
+            res.status(201).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
+=======
         const idRequest = req.traceId;
         const datos = req.body;
 
@@ -66,10 +73,50 @@ export default class patientController extends patientInputPort {
                 enlaces: { get: "/patients" }
             });
         }
+>>>>>>> 0d9d72c5b2672db31ec3ec3bbb62a6ad85fcf7b6
     };
 
     // READ 
     read = async (req, res) => {
+<<<<<<< HEAD
+        try {
+            const result = await this.patientQueryUseCase.read();
+            res.status(200).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
+    };
+
+    readById = async (req, res) => {
+        try {
+            const result = await this.patientQueryUseCase.readById(req.params.id);
+            if(!result) return res.status(404).json({ error: "No encontrado" });
+            res.status(200).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
+    };
+
+    update = async (req, res) => {
+        try {
+            const dto = new patientDTO(req.body);
+            const result = await this.patientCommandUseCase.update(req.params.id, dto);
+            res.status(200).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
+    };
+
+    patch = async (req, res) => {
+        try {
+            const dto = new patientDTO(req.body); // Will have undefined for missing
+            // Clean undefined from object so we only update sent fields
+            Object.keys(dto).forEach(key => dto[key] === undefined && delete dto[key]);
+            const result = await this.patientCommandUseCase.patch(req.params.id, dto);
+            res.status(200).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
+    };
+
+    delete = async (req, res) => {
+        try {
+            const result = await this.patientCommandUseCase.delete(req.params.id);
+            res.status(200).json({ estado: "ok", resultado: result });
+        } catch(e) { res.status(500).json({ error: e.message }); }
+=======
         const idRequest = req.traceId;
         const { id_paciente, nombres, apellidos, identificacion } = req.query;
 
@@ -211,5 +258,6 @@ export default class patientController extends patientInputPort {
                 enlaces: { get: "/patients" }
             });
         }
+>>>>>>> 0d9d72c5b2672db31ec3ec3bbb62a6ad85fcf7b6
     };
 }

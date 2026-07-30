@@ -1,6 +1,6 @@
 import personalQueryOutput from "../../../application/ports/output/query/personalQueryOutput.js";
 import PersonalFilter from "../../../domain/filters/personalFilter.js";
-import personalModel from "../../base-dato/orm/personalModel.js";
+import personalModel from "../../model/personalModel.js";
 
 export default class personalMYSQLQueryAdapter extends personalQueryOutput {
 

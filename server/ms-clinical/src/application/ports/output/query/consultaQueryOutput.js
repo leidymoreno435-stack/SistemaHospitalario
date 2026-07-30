@@ -1,8 +1,4 @@
 export default class consultaQueryOutput {
-    read(filter = {}) {
-        throw new Error("Method not implemented");
-    }
-    findById(id) {
-        throw new Error("Method not implemented");
-    }
+    read() { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    readById(id) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
 }

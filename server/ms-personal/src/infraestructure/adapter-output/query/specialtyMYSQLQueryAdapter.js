@@ -1,6 +1,6 @@
 import specialtyQueryOutput from "../../../application/ports/output/query/specialtyQueryOutput.js";
 import SpecialtyFilter from "../../../domain/filters/specialtyFilter.js";
-import specialtyModel from "../../base-dato/orm/specialtyModel.js";
+import specialtyModel from "../../model/specialtyModel.js";
 
 export default class specialtyMYSQLQueryAdapter extends specialtyQueryOutput {
 

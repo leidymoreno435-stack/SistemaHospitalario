@@ -1,11 +1,13 @@
-import { Router } from 'express';
-import { personalController } from '../conteiner/personalConteiner.js';
+import { Router } from "express";
+import { personalContainer } from "../conteiner/personalContainer.js";
 
 const router = Router();
 
-router.post('/personal', personalController.create);
-router.patch('/personal', personalController.update)
-router.get('/personal', personalController.read);
-router.delete('/personal', personalController.delete);
+router.post('/personal', personalContainer.create);
+router.get('/personal', personalContainer.read);
+router.get('/personal/:id', personalContainer.readById);
+router.put('/personal/:id', personalContainer.update);
+router.patch('/personal/:id', personalContainer.patch);
+router.delete('/personal/:id', personalContainer.delete);
 
 export default router;

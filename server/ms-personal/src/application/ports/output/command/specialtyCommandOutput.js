@@ -1,11 +1,6 @@
 export default class specialtyCommandOutput {
-    create(specialty) {
-        throw new Error("Method not implemented");
-    }
-    update(specialty) {
-        throw new Error("Method not implemented");
-    }
-    delete(specialty) {
-        throw new Error("Method not implemented");
-    }
+    create(dtoSpecialty) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    update(id, dtoSpecialty) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    patch(id, dtoSpecialty) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    delete(id) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
 }

@@ -1,9 +1,14 @@
-import Patient from "../../../domain/entities/patient.js";
-
-export default class PatientCommandUseCase {
-    constructor(adaptadorBDSalida) {
-        this.adaptadorBDSalida = adaptadorBDSalida;
+export default class patientCommandUsesCase {
+    constructor(patientCommandOutput) {
+        this.patientCommandOutput = patientCommandOutput;
     }
+<<<<<<< HEAD
+    create(dtoPatient) { return this.patientCommandOutput.create(dtoPatient); }
+    update(id, dtoPatient) { return this.patientCommandOutput.update(id, dtoPatient); }
+    patch(id, dtoPatient) { return this.patientCommandOutput.patch(id, dtoPatient); }
+    delete(id) { return this.patientCommandOutput.delete(id); }
+}
+=======
 
     async create(patientDTO) {
         // 1. Validación de campos obligatorios
@@ -77,3 +82,4 @@ export default class PatientCommandUseCase {
         return await this.adaptadorBDSalida.delete(paciente);
     }
 }
+>>>>>>> 0d9d72c5b2672db31ec3ec3bbb62a6ad85fcf7b6

@@ -1,6 +1,10 @@
 import patientQueryOutput from "../../../application/ports/output/query/patientQueryOutput.js";
 import PatientFilter from "../../../domain/filters/patientFilter.js";
+<<<<<<< HEAD
+import PatientModel from "../../model/patientModel.js";
+=======
 import patientModel from "../../base-dato/orm/patientModel.js";
+>>>>>>> 0d9d72c5b2672db31ec3ec3bbb62a6ad85fcf7b6
 
 export default class patientMYSQLQueryAdapter extends patientQueryOutput {
 

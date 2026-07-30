@@ -1,13 +1,7 @@
-export default class SpecialtyQueryUseCase {
-    constructor(adaptadorBDSalida) {
-        this.adaptadorBDSalida = adaptadorBDSalida;
+export default class specialtyQueryUsesCase {
+    constructor(specialtyQueryOutput) {
+        this.specialtyQueryOutput = specialtyQueryOutput;
     }
-
-    async read(filter = []) {
-        const result = await this.adaptadorBDSalida.read(filter);
-        return {
-            estado: "ok",
-            resultado: result
-        };
-    }
+    read() { return this.specialtyQueryOutput.read(); }
+    readById(id) { return this.specialtyQueryOutput.readById(id); }
 }

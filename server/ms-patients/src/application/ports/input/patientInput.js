@@ -1,14 +1,8 @@
-export default class patientInput {
-    create(req, resp) {
-        throw new Error("Method not implemented");
-    }
-    read(req, resp) {
-        throw new Error("Method not implemented");
-    }
-    update(req, resp) {
-        throw new Error("Method not implemented");
-    }
-    delete(req, resp) {
-        throw new Error("Method not implemented");
-    }
+export default class patientInputPort {
+    create(dtoPatient) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    read() { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    readById(id) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    update(id, dtoPatient) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    patch(id, dtoPatient) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    delete(id) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
 }

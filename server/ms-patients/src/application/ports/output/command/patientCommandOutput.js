@@ -1,11 +1,6 @@
 export default class patientCommandOutput {
-    create(patient) {
-        throw new Error("Method not implemented");
-    }
-    update(patient) {
-        throw new Error("Method not implemented");
-    }
-    delete(patient) {
-        throw new Error("Method not implemented");
-    }
+    create(dtoPatient) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    update(id, dtoPatient) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    patch(id, dtoPatient) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
+    delete(id) { throw new Error('ERR_METHOD_NOT_IMPLEMENTED'); }
 }

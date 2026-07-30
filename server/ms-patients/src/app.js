@@ -1,9 +1,18 @@
+<<<<<<< HEAD
+import express from 'express'
+import cors from 'cors'
+import swaggerUi from 'swagger-ui-express'
+import YAML from 'yamljs'
+import OpenApiValidator from 'express-openapi-validator'
+
+=======
 import express from 'express';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import OpenApiValidator from 'express-openapi-validator';
 import 'dotenv/config';
+>>>>>>> 0d9d72c5b2672db31ec3ec3bbb62a6ad85fcf7b6
 
 import rateLimit from "express-rate-limit";
 import slowDown from "express-slow-down";
@@ -86,7 +95,12 @@ app.use((err, req, res, next) => {
     });
 });
 
+<<<<<<< HEAD
+
+export default app;
+=======
 // Servidor
 app.listen(PORT, () => {
     console.log(`Servidor patient corriendo en puerto ${PORT}`);
 });
+>>>>>>> 0d9d72c5b2672db31ec3ec3bbb62a6ad85fcf7b6

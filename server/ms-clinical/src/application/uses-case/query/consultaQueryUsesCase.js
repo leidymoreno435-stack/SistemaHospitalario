@@ -1,27 +1,7 @@
-export default class consultaQueryUseCase {
-    constructor(adaptadorBDSalida) {
-        this.adaptadorBDSalida = adaptadorBDSalida;
+export default class consultaQueryUsesCase {
+    constructor(consultaQueryOutput) {
+        this.consultaQueryOutput = consultaQueryOutput;
     }
-
-    async read(filter = {}) {
-        const result = await this.adaptadorBDSalida.read(filter);
-
-        console.log("Ingreso al caso de uso - Consulta (Read)");
-
-        return {
-            estado: "ok",
-            resultado: result
-        };
-    }
-
-    async findById(id) {
-        const result = await this.adaptadorBDSalida.findById(id);
-
-        console.log("Ingreso al caso de uso - Consulta (FindById)");
-
-        return {
-            estado: "ok",
-            resultado: result
-        };
-    }
+    read() { return this.consultaQueryOutput.read(); }
+    readById(id) { return this.consultaQueryOutput.readById(id); }
 }
