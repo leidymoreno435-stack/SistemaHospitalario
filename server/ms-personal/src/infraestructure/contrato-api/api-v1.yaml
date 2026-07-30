@@ -1,9 +1,9 @@
 openapi: 3.0.0
 
 info:
-  title: API de Personal
+  title: API de Personal y Especialidades
   version: 1.0.0
-  description: Contrato de API para la gestión del personal usando arquitectura hexagonal en Node.js.
+  description: Contrato de API para la gestión de personal y especialidades usando arquitectura hexagonal en Node.js.
 
 servers:
   - url: http://localhost:3001/api/v1
@@ -11,6 +11,8 @@ servers:
 tags:
   - name: Personal
     description: Operaciones relacionadas con la gestión de personal
+  - name: Especialidades
+    description: Operaciones relacionadas con la gestión de especialidades
 
 paths:
   /personal:
@@ -198,6 +200,176 @@ paths:
         '404':
           description: Personal no encontrado
 
+  /especialidad:
+    get:
+      tags:
+        - Especialidades
+      summary: Listar o filtrar especialidades
+      description: Obtiene la lista de especialidades registradas con opción de filtrado por query parameters.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id_especialidad
+          schema:
+            type: integer
+          description: ID de la especialidad a buscar
+        - in: query
+          name: nombre
+          schema:
+            type: string
+          description: Nombre de la especialidad o coincidencia parcial
+        - in: query
+          name: descripcion
+          schema:
+            type: string
+          description: Descripción de la especialidad
+      responses:
+        '200':
+          description: Lista de especialidades obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: string
+                    example: ok
+                  traceId:
+                    type: string
+                    example: "req-12345"
+                  resultado:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Especialidad'
+                  enlaces:
+                    type: object
+                    example:
+                      post: "/especialidad"
+                      patch: "/especialidad"
+                      delete: "/especialidad"
+
+    post:
+      tags:
+        - Especialidades
+      summary: Crear especialidad
+      description: Registra una nueva especialidad en el sistema.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrearEspecialidadRequest'
+      responses:
+        '201':
+          description: Especialidad creada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: string
+                    example: ok
+                  traceId:
+                    type: string
+                    example: "req-12345"
+                  resultado:
+                    type: string
+                    example: "Se guardó con éxito en la BD: Cardiología"
+                  enlaces:
+                    type: object
+                    example:
+                      get: "/especialidad"
+                      patch: "/especialidad"
+                      delete: "/especialidad"
+        '400':
+          description: Datos obligatorios faltantes o inválidos
+        '409':
+          description: Registro duplicado (nombre de especialidad ya existente)
+
+    patch:
+      tags:
+        - Especialidades
+      summary: Actualizar especialidad
+      description: Modifica la información de una especialidad existente.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualizarEspecialidadRequest'
+      responses:
+        '200':
+          description: Especialidad actualizada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Especialidad actualizada correctamente
+                  traceId:
+                    type: string
+                    example: "req-12345"
+                  resultado:
+                    type: string
+                    example: "Se actualizó con éxito la especialidad con ID: 1"
+                  enlaces:
+                    type: object
+                    example:
+                      get: "/especialidad"
+                      delete: "/especialidad"
+        '400':
+          description: Datos inválidos o ID no proporcionado
+        '404':
+          description: Especialidad no encontrada
+        '409':
+          description: Conflicto de duplicidad en el nombre de la especialidad
+
+    delete:
+      tags:
+        - Especialidades
+      summary: Eliminar especialidad
+      description: Elimina una especialidad registrada.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EliminarEspecialidadRequest'
+      responses:
+        '200':
+          description: Especialidad eliminada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mensaje:
+                    type: string
+                    example: Petición recibida correctamente
+                  traceId:
+                    type: string
+                    example: "req-12345"
+                  resultado:
+                    type: string
+                    example: "Se eliminó con éxito en la BD el ID: 1"
+                  enlaces:
+                    type: object
+                    example:
+                      get: "/especialidad"
+                      post: "/especialidad"
+        '404':
+          description: Especialidad no encontrada
+
 components:
   securitySchemes:
     bearerAuth:
@@ -316,5 +488,54 @@ components:
         - id_personal
       properties:
         id_personal:
+          type: integer
+          example: 1
+
+    Especialidad:
+      type: object
+      properties:
+        id_especialidad:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Cardiología
+        descripcion:
+          type: string
+          example: Especialidad encargada de las enfermedades del corazón y del sistema circulatorio.
+
+    CrearEspecialidadRequest:
+      type: object
+      required:
+        - nombre
+      properties:
+        nombre:
+          type: string
+          example: Cardiología
+        descripcion:
+          type: string
+          example: Especialidad encargada de las enfermedades del corazón y del sistema circulatorio.
+
+    ActualizarEspecialidadRequest:
+      type: object
+      required:
+        - id_especialidad
+      properties:
+        id_especialidad:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Cardiología Clínica
+        descripcion:
+          type: string
+          example: Especialidad encargada del diagnóstico y tratamiento de enfermedades cardíacas.
+
+    EliminarEspecialidadRequest:
+      type: object
+      required:
+        - id_especialidad
+      properties:
+        id_especialidad:
           type: integer
           example: 1

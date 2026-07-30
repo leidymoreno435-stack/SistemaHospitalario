@@ -12,13 +12,14 @@ import { traceMiddleWare } from './infraestructure/middleware/TraceMiddleware.js
 import { timeMiddleware } from './infraestructure/middleware/TimeMiddleware.js';
 import { loggerMiddleWare } from './infraestructure/middleware/LoggerMiddleware.js';
 import personalRuta from './infraestructure/routes/personalRoutes.js'
+import specialtyRuta from './infraestructure/routes/specialtyRoutes.js'
 
-//Librerias Core
+// Librerias Core
 const app = express();
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
-//Contratos
+// Contratos
 const urlContrato = './src/infraestructure/contrato-api/api-v1.yaml';
 const swaggerDocument = YAML.load(urlContrato);
 app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -26,7 +27,7 @@ app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // MiddleWare 
 app.use(traceMiddleWare);
 app.use(timeMiddleware);
-app.use(loggerMiddleWare)
+app.use(loggerMiddleWare);
 
 app.use(
     '/api/v1',
@@ -35,18 +36,17 @@ app.use(
         validateRequests: true,
         validateResponses: false
     })
-)
-
+);
 
 // Manejo de errores del contrato OpenAPI
 app.use((err, req, res, next) => {
     res.status(err.status || 500).json({
         mensaje: err.message,
         errores: err.errors
-    })
-})
+    });
+});
 
-//telemetria
+// Telemetría
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
     next();
@@ -73,19 +73,20 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// rutas 
+// Rutas 
 app.use('/api/v1', personalRuta);
+app.use('/api/v1', specialtyRuta);
 
 // Health Check
 app.get('/health', (req, res) => {
     res.json({
         status: "OK",
-        service: "API de personal",
+        service: "API de Personal y Especialidades",
         timestamp: new Date()
     });
 });
 
-//servidor
+// Servidor
 app.listen(3001, () => {
-    console.log('Servidor personal corriendo en puerto 3001')
-})
+    console.log('Servidor corriendo en puerto 3001');
+});
