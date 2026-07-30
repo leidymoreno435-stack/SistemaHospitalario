@@ -1,4 +1,4 @@
-FROM node:24
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -7,8 +7,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3001
+EXPOSE 3004
 
-CMD ["npm", "run", "dev"]
-
-RUN npm install -g nodemon
+CMD ["npm", "start"]
