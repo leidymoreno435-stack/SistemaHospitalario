@@ -1,0 +1,263 @@
+openapi: 3.0.0
+
+info:
+  title: API Security Service
+  version: 1.0.0
+  description: Contrato de API para autenticación, usuarios y roles usando arquitectura hexagonal.
+servers:
+  - url: http://localhost:3000/api/v1
+
+tags:
+  - name: Auth
+    description: Autenticación del sistema
+  - name: Usuarios
+    description: Gestión de usuarios
+  - name: Roles
+    description: Gestión de roles
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Iniciar sesión
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login correcto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: string
+                    example: ok
+                  token:
+                    type: string
+                  usuario:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                      id_rol:
+                        type: integer
+        '400':
+          description: Faltan credenciales
+        '401':
+          description: Credenciales incorrectas o usuario no encontrado
+
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Registrar usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Usuario registrado correctamente
+        '400':
+          description: Faltan datos requeridos o el usuario ya existe
+
+  /usuarios:
+    get:
+      tags:
+        - Usuarios
+      summary: Listar usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Usuarios obtenidos correctamente
+
+    post:
+      tags:
+        - Usuarios
+      summary: Crear usuario
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Accept
+          required: false
+          schema:
+            type: string
+            example: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioRequest'
+      responses:
+        '201':
+          description: Usuario creado exitosamente (controlador devuelve 200)
+        '400':
+          description: Error en el encabezado Accept
+
+    delete:
+      tags:
+        - Usuarios
+      summary: Eliminar usuario
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Accept
+          required: false
+          schema:
+            type: string
+            example: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteUsuarioRequest'
+      responses:
+        '200':
+          description: Usuario eliminado
+
+  /rol:
+    get:
+      tags:
+        - Roles
+      summary: Listar roles
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Roles obtenidos
+    
+    post:
+      tags:
+        - Roles
+      summary: Crear rol
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Accept
+          required: false
+          schema:
+            type: string
+            example: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RolRequest'
+      responses:
+        '201':
+          description: Rol creado (controlador devuelve 200)
+        '400':
+          description: Error en el encabezado Accept
+
+    delete:
+      tags:
+        - Roles
+      summary: Eliminar rol
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Accept
+          required: false
+          schema:
+            type: string
+            example: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteRolRequest'
+      responses:
+        '200':
+          description: Rol eliminado
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: admin_user
+        password:
+          type: string
+          example: "123456"
+
+    RegisterRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: juan_perez
+        password:
+          type: string
+          example: "123456"
+        id_rol:
+          type: integer
+          example: 2
+
+    UsuarioRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: juan_perez
+        password_hash:
+          type: string
+          example: "hash_de_contraseña_o_texto_plano_segun_DTO"
+        id_rol:
+          type: integer
+          example: 1
+        activo:
+          type: boolean
+          example: true
+        fecha_creacion:
+          type: string
+          format: date-time
+          example: "2026-07-28T10:00:00Z"
+
+    DeleteUsuarioRequest:
+      type: object
+      properties:
+        id_usuario:
+          type: integer
+          example: 5
+
+    RolRequest:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: Administrador
+        descripcion:
+          type: string
+          example: Acceso completo
+
+    DeleteRolRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1

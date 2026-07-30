@@ -9,7 +9,7 @@ export default class usuarioCommandUsesCase {
         const persona = new usuario(
             null,
             usuarioDTO.getUsername(),
-            usuarioDTO.password_hash,
+            usuarioDTO.getPassword_hash(),
             usuarioDTO.getId_rol(),
             usuarioDTO.getActivo(),
             usuarioDTO.getFecha_creacion() || new Date()

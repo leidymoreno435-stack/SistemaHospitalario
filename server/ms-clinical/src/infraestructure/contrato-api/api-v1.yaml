@@ -1,0 +1,304 @@
+openapi: 3.0.0
+info:
+  title: API de Consultas
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v1
+    description: API Gateway (Recomendado)
+  - url: http://localhost:3004/api/v1
+    description: Microservicio Directo (ms-clinical)
+tags:
+  - name: Consultas
+    description: Operaciones relacionadas con la gestión de consultas médicas
+
+paths:
+  /consultas:
+
+    get:
+      tags:
+        - Consultas
+      summary: Listar o filtrar consultas
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id_paciente
+          schema:
+            type: integer
+          description: Filtrar consultas por ID del paciente
+        - in: query
+          name: id_medico
+          schema:
+            type: integer
+          description: Filtrar consultas por ID del médico
+        - in: query
+          name: id_consultorio
+          schema:
+            type: integer
+          description: Filtrar consultas por ID del consultorio
+        - in: query
+          name: estado
+          schema:
+            type: string
+            enum: [programada, atendida, cancelada]
+          description: Filtrar por estado de la consulta
+        - in: query
+          name: fecha_programada
+          schema:
+            type: string
+            format: date-time
+          description: Filtrar por fecha programada
+      responses:
+        '200':
+          description: Lista de consultas obtenida correctamente
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      tags:
+        - Consultas
+      summary: Agendar/Registrar consulta
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrearConsultaRequest'
+      responses:
+        '201':
+          description: Consulta registrada correctamente
+        '400':
+          description: Solicitud incorrecta o datos faltantes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflicto - Ya existe una consulta agendada para el médico en ese horario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    patch:
+      tags:
+        - Consultas
+      summary: Actualizar consulta
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualizarConsultaRequest'
+      responses:
+        '200':
+          description: Consulta actualizada correctamente
+        '400':
+          description: Solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Consulta no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - Consultas
+      summary: Eliminar consulta
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EliminarConsultaRequest'
+      responses:
+        '200':
+          description: Consulta eliminada correctamente
+        '400':
+          description: Solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Consulta no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    ErrorResponse:
+      type: object
+      properties:
+        traceId:
+          type: string
+          example: "07293669-51e1-4180-bffa-958d0287b204"
+        error:
+          type: string
+          example: "Ocurrió un error: Ya existe una consulta agendada para este médico en la misma fecha y hora."
+        enlaces:
+          type: object
+          properties:
+            get:
+              type: string
+              example: "/consultas"
+
+    Consulta:
+      type: object
+      properties:
+        id_consulta:
+          type: integer
+          example: 1
+        id_paciente:
+          type: integer
+          example: 10
+        id_medico:
+          type: integer
+          example: 5
+        id_consultorio:
+          type: integer
+          example: 2
+        motivo:
+          type: string
+          example: "Dolor abdominal agudo"
+        observaciones:
+          type: string
+          example: "Se prescribe tratamiento inicial y reposo"
+        estado:
+          type: string
+          enum: [programada, atendida, cancelada]
+          example: "programada"
+        fecha_programada:
+          type: string
+          format: date-time
+          example: "2026-08-01T09:00:00Z"
+        fecha_realizacion:
+          type: string
+          format: date-time
+          example: "2026-08-01T09:15:00Z"
+        duracion_min:
+          type: integer
+          example: 30
+        tarifa:
+          type: number
+          format: float
+          example: 45.00
+        creado_en:
+          type: string
+          format: date-time
+          example: "2026-07-28T15:30:00Z"
+
+    CrearConsultaRequest:
+      type: object
+      required:
+        - id_paciente
+        - id_medico
+        - fecha_programada
+      properties:
+        id_paciente:
+          type: integer
+          example: 10
+        id_medico:
+          type: integer
+          example: 5
+        id_consultorio:
+          type: integer
+          example: 2
+        motivo:
+          type: string
+          example: "Consulta de control rutina"
+        observaciones:
+          type: string
+          example: "Paciente acude a chequeo preventivo"
+        estado:
+          type: string
+          enum: [programada, atendida, cancelada]
+          example: "programada"
+        fecha_programada:
+          type: string
+          format: date-time
+          example: "2026-08-01T09:00:00Z"
+        duracion_min:
+          type: integer
+          example: 30
+        tarifa:
+          type: number
+          format: float
+          example: 45.00
+
+    ActualizarConsultaRequest:
+      type: object
+      required:
+        - id_consulta
+      properties:
+        id_consulta:
+          type: integer
+          example: 1
+        id_paciente:
+          type: integer
+          example: 10
+        id_medico:
+          type: integer
+          example: 5
+        id_consultorio:
+          type: integer
+          example: 2
+        motivo:
+          type: string
+          example: "Consulta de control rutina"
+        observaciones:
+          type: string
+          example: "Consulta finalizada, paciente en buen estado"
+        estado:
+          type: string
+          enum: [programada, atendida, cancelada]
+          example: "atendida"
+        fecha_programada:
+          type: string
+          format: date-time
+          example: "2026-08-01T09:00:00Z"
+        fecha_realizacion:
+          type: string
+          format: date-time
+          example: "2026-08-01T09:15:00Z"
+        duracion_min:
+          type: integer
+          example: 30
+        tarifa:
+          type: number
+          format: float
+          example: 45.00
+
+    EliminarConsultaRequest:
+      type: object
+      required:
+        - id_consulta
+      properties:
+        id_consulta:
+          type: integer
+          example: 1

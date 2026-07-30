@@ -23,7 +23,7 @@ export default class usuarioController extends usuarioInputPort {
         console.log("Ingresamos al controlador con: " + idRequest + dtoUsu.getUsername());
 
         const resultado = await this.usuarioCommandUsesCase.create(dtoUsu);
-        res.status(200).json({
+        res.status(201).json({
             traceId: idRequest,
             resultado: resultado,
             enlaces: {

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * consultaRoutes.js — Definición de endpoints REST para Consulta
  *
@@ -25,3 +26,16 @@ router.put(    '/:id', consultaControlador.actualizar);
 router.delete( '/:id', consultaControlador.eliminar);
 
 export default router;
+=======
+import { Router } from 'express';
+import { consultaController } from '../conteiner/consultaConteiner.js';
+
+const router = Router();
+
+router.get('/consultas', consultaController.read);
+router.post('/consultas', consultaController.create);
+router.patch('/consultas', consultaController.update);
+router.delete('/consultas', consultaController.delete);
+
+export default router;
+>>>>>>> 749f8c1b2931d57f48fdd582bded21e7152cddd1

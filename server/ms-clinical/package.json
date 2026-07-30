@@ -1,22 +1,22 @@
 {
-  "name": "ms-clinical",
-  "version": "1.0.0",
-  "description": "Microservicio clínico: gestión de consultas médicas e historias clínicas",
-  "type": "module",
-  "main": "src/app.js",
-  "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.18.2",
-    "pg": "^8.11.3",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.3"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.4"
-  }
+    "name": "ms-clinical",
+    "version": "1.0.0",
+    "description": "Microservicio clínico: gestión de consultas médicas e historias clínicas",
+    "type": "module",
+    "main": "src/app.js",
+    "scripts": {
+        "start": "node src/app.js",
+        "dev": "nodemon src/app.js"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.18.2",
+        "pg": "^8.11.3",
+        "pg-hstore": "^2.3.4",
+        "sequelize": "^6.37.3"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.4"
+    }
 }
