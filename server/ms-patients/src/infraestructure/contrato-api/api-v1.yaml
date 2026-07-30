@@ -73,65 +73,88 @@ components:
 
         id_paciente:
           type: integer
-          example: 1
+          example: 4
 
-        nombre:
+        nombres:
           type: string
           example: Juan
 
-        apellido:
+        apellidos:
           type: string
-          example: Pérez
-
-        cedula:
-          type: string
-          example: "0701234567"
+          example: Mendoza Ruiz
 
         fecha_nacimiento:
           type: string
           format: date
-          example: "2000-05-15"
+          example: "1990-04-12"
+
+        sexo:
+          type: string
+          example: "M"
+
+        identificacion:
+          type: string
+          example: "1102345678"
 
         telefono:
           type: string
-          example: "0999999999"
+          example: "0982233445"
+
+        email:
+          type: string
+          format: email
+          example: "juan.mendoza@email.com"
 
         direccion:
           type: string
-          example: "Machala, El Oro"
+          example: "Av. América 123"
+
+        creado_en:
+          type: string
+          format: date-time
+          example: "2025-10-01T10:00:00Z"
 
     CrearPacienteRequest:
       type: object
       required:
-        - nombre
-        - apellido
-        - cedula
+        - nombres
+        - apellidos
+        - identificacion
       properties:
 
-        nombre:
+        nombres:
           type: string
           example: Juan
 
-        apellido:
+        apellidos:
           type: string
-          example: Pérez
-
-        cedula:
-          type: string
-          example: "0701234567"
+          example: Mendoza Ruiz
 
         fecha_nacimiento:
           type: string
           format: date
-          example: "2000-05-15"
+          example: "1990-04-12"
+
+        sexo:
+          type: string
+          example: "M"
+
+        identificacion:
+          type: string
+          example: "1102345678"
 
         telefono:
           type: string
-          example: "0999999999"
+          example: "0982233445"
+
+        email:
+          type: string
+          format: email
+          example: "juan.mendoza@email.com"
 
         direccion:
           type: string
-          example: "Machala, El Oro"
+          example: "Av. América 123"
 
     EliminarPacienteRequest:
       type: object
@@ -141,4 +164,4 @@ components:
 
         id_paciente:
           type: integer
-          example: 1
+          example: 4

@@ -1,14 +1,20 @@
 import patientQueryOutput from "../../../application/ports/output/query/patientQueryOutput.js";
 import PatientFilter from "../../../domain/filters/patientFilter.js";
-import PatientModel from "../../base-dato/orm/patientModel.js";
+import patientModel from "../../base-dato/orm/patientModel.js";
 
 export default class patientMYSQLQueryAdapter extends patientQueryOutput {
 
     read = async (filter = []) => {
-        console.log("Listando la tabla paciente...");
+        console.log("Listando la tabla pacientes...");
         const where = {};
-        filter.forEach(filtro => {
+
+        const listaFiltros = Array.isArray(filter) ? filter : [filter];
+
+        listaFiltros.forEach(filtro => {
             if (filtro instanceof PatientFilter) {
+
+                if (filtro.id_paciente)
+                    where.id_paciente = filtro.id_paciente;
 
                 if (filtro.nombres)
                     where.nombres = filtro.nombres;
@@ -18,13 +24,11 @@ export default class patientMYSQLQueryAdapter extends patientQueryOutput {
 
                 if (filtro.identificacion)
                     where.identificacion = filtro.identificacion;
-
-                if (filtro.sexo)
-                    where.sexo = filtro.sexo;
             }
         });
 
-        const pacientes = await PatientModel.findAll({ where });
+        const pacientes = await patientModel.findAll({ where });
+
         return {
             estado: "ok",
             resultado: pacientes
