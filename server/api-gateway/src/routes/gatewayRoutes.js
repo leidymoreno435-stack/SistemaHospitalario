@@ -64,6 +64,11 @@ router.use('/personal', verifyToken, proxy('http://ms-personal:3001', {
     proxyReqPathResolver: (req) => `/api/v1/personal${req.url}`
 }));
 
+// Proxy hacia Especialidades (Atendido por ms-personal)
+router.use('/especialidad', verifyToken, proxy('http://ms-personal:3001', {
+    proxyReqPathResolver: (req) => `/api/v1/especialidad${req.url}`
+}));
+
 // Proxy hacia Consultas (Atendido por ms-clinical en el puerto 3004)
 router.use('/consultas', verifyToken, proxy('http://ms-clinical:3004', {
     proxyReqPathResolver: (req) => `/api/v1/consultas${req.url}`
