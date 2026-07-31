@@ -1,8 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
-import OpenApiValidator from 'express-openapi-validator';
 import rateLimit from "express-rate-limit";
 import slowDown from "express-slow-down";
 import fs from 'fs';
@@ -26,16 +23,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-const urlContrato = './src/infraestructure/contrato-api/api-v1.yaml';
-if (fs.existsSync(urlContrato)) {
-    const swaggerDocument = YAML.load(urlContrato);
-    app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-    app.use('/api/v1', OpenApiValidator.middleware({
-        apiSpec: urlContrato,
-        validateRequests: true,
-        validateResponses: false
-    }));
-}
 
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);

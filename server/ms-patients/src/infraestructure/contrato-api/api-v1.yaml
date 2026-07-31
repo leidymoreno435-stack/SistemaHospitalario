@@ -13,8 +13,7 @@ tags:
     description: Operaciones relacionadas con pacientes
 
 paths:
-  /patients:
-
+  /patient:
     get:
       tags:
         - Patients
@@ -24,6 +23,14 @@ paths:
       responses:
         '200':
           description: Lista de pacientes obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Patient'
+        '500':
+          description: Error interno del servidor
 
     post:
       tags:
@@ -40,11 +47,19 @@ paths:
       responses:
         '201':
           description: Paciente registrado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        '400':
+          description: Datos requeridos faltantes o inválidos
+        '500':
+          description: Error interno del servidor
 
     delete:
       tags:
         - Patients
-      summary: Eliminar paciente
+      summary: Eliminar paciente por cuerpo de petición (Body)
       security:
         - bearerAuth: []
       requestBody:
@@ -56,9 +71,86 @@ paths:
       responses:
         '200':
           description: Paciente eliminado correctamente
+        '404':
+          description: Paciente no encontrado
+        '500':
+          description: Error interno del servidor
+
+  /patient/{id}:
+    get:
+      tags:
+        - Patients
+      summary: Obtener paciente por ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del paciente
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Paciente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        '404':
+          description: Paciente no encontrado
+        '500':
+          description: Error interno del servidor
+
+    patch:
+      tags:
+        - Patients
+      summary: Actualizar paciente parcialmente
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del paciente
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualizarPacienteRequest'
+      responses:
+        '200':
+          description: Paciente actualizado correctamente
+        '404':
+          description: Paciente no encontrado
+        '500':
+          description: Error interno del servidor
+
+    delete:
+      tags:
+        - Patients
+      summary: Eliminar paciente por ID en la URL
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del paciente
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Paciente eliminado correctamente
+        '404':
+          description: Paciente no encontrado
+        '500':
+          description: Error interno del servidor
 
 components:
-
   securitySchemes:
     bearerAuth:
       type: http
@@ -66,49 +158,38 @@ components:
       bearerFormat: JWT
 
   schemas:
-
     Patient:
       type: object
       properties:
-
         id_paciente:
           type: integer
           example: 4
-
         nombres:
           type: string
           example: Juan
-
         apellidos:
           type: string
           example: Mendoza Ruiz
-
         fecha_nacimiento:
           type: string
           format: date
           example: "1990-04-12"
-
         sexo:
           type: string
           example: "M"
-
         identificacion:
           type: string
           example: "1102345678"
-
         telefono:
           type: string
           example: "0982233445"
-
         email:
           type: string
           format: email
           example: "juan.mendoza@email.com"
-
         direccion:
           type: string
           example: "Av. América 123"
-
         creado_en:
           type: string
           format: date-time
@@ -121,37 +202,59 @@ components:
         - apellidos
         - identificacion
       properties:
-
         nombres:
           type: string
           example: Juan
-
         apellidos:
           type: string
           example: Mendoza Ruiz
-
         fecha_nacimiento:
           type: string
           format: date
           example: "1990-04-12"
-
         sexo:
           type: string
           example: "M"
-
         identificacion:
           type: string
           example: "1102345678"
-
         telefono:
           type: string
           example: "0982233445"
-
         email:
           type: string
           format: email
           example: "juan.mendoza@email.com"
+        direccion:
+          type: string
+          example: "Av. América 123"
 
+    ActualizarPacienteRequest:
+      type: object
+      properties:
+        nombres:
+          type: string
+          example: Juan
+        apellidos:
+          type: string
+          example: Mendoza Ruiz
+        fecha_nacimiento:
+          type: string
+          format: date
+          example: "1990-04-12"
+        sexo:
+          type: string
+          example: "M"
+        identificacion:
+          type: string
+          example: "1102345678"
+        telefono:
+          type: string
+          example: "0982233445"
+        email:
+          type: string
+          format: email
+          example: "juan.mendoza@email.com"
         direccion:
           type: string
           example: "Av. América 123"
@@ -161,7 +264,6 @@ components:
       required:
         - id_paciente
       properties:
-
         id_paciente:
           type: integer
           example: 4

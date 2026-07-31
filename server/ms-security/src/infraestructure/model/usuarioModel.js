@@ -1,4 +1,6 @@
-import { DataTypes } from 'sequelize';
+import {
+    DataTypes
+} from 'sequelize';
 import sequelize from '../database/postgres.js';
 
 const UsuarioModel = sequelize.define('usuario', {
@@ -35,5 +37,7 @@ const UsuarioModel = sequelize.define('usuario', {
     timestamps: false,
     freezeTableName: true
 });
-export { sequelize };
+export {
+    sequelize
+};
 export default UsuarioModel;

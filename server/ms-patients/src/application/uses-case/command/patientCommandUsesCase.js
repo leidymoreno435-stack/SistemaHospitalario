@@ -1,17 +1,11 @@
-export default class patientCommandUsesCase {
+import Patient from "../../../domain/entities/patient.js";
+
+export default class patientCommandUseCase {
     constructor(patientCommandOutput) {
         this.patientCommandOutput = patientCommandOutput;
     }
-<<<<<<< HEAD
-    create(dtoPatient) { return this.patientCommandOutput.create(dtoPatient); }
-    update(id, dtoPatient) { return this.patientCommandOutput.update(id, dtoPatient); }
-    patch(id, dtoPatient) { return this.patientCommandOutput.patch(id, dtoPatient); }
-    delete(id) { return this.patientCommandOutput.delete(id); }
-}
-=======
 
     async create(patientDTO) {
-        // 1. Validación de campos obligatorios
         const nombres = patientDTO.getNombres();
         const apellidos = patientDTO.getApellidos();
         const identificacion = patientDTO.getIdentificacion();
@@ -23,63 +17,64 @@ export default class patientCommandUsesCase {
             };
         }
 
-        // 2. Creación de la Entidad de Dominio
-        const paciente = new Patient(
-            null,
-            nombres,
-            apellidos,
-            patientDTO.getFecha_nacimiento(),
-            patientDTO.getSexo(),
-            identificacion,
-            patientDTO.getTelefono(),
-            patientDTO.getEmail(),
-            patientDTO.getDireccion(),
-            patientDTO.getCreado_en()
-        );
+        const paciente = new Patient({
+            id_paciente: null,
+            nombres: nombres,
+            apellidos: apellidos,
+            fecha_nacimiento: patientDTO.getFecha_nacimiento(),
+            sexo: patientDTO.getSexo(),
+            identificacion: identificacion,
+            telefono: patientDTO.getTelefono(),
+            email: patientDTO.getEmail(),
+            direccion: patientDTO.getDireccion(),
+            creado_en: patientDTO.getCreado_en()
+        });
 
-        // 3. Persistencia
-        return await this.adaptadorBDSalida.create(paciente);
+        return await this.patientCommandOutput.create(paciente);
     }
 
-    async update(patientDTO) {
-        const id = patientDTO.getId_paciente();
-
+    async update(id, patientDTO) {
         if (!id) {
             return {
                 estado: "error",
-                resultado: "Se requiere el id_paciente para actualizar el registro."
+                resultado: "Se requiere el ID para actualizar el registro."
             };
         }
 
-        const paciente = new Patient(
-            id,
-            patientDTO.getNombres(),
-            patientDTO.getApellidos(),
-            patientDTO.getFecha_nacimiento(),
-            patientDTO.getSexo(),
-            patientDTO.getIdentificacion(),
-            patientDTO.getTelefono(),
-            patientDTO.getEmail(),
-            patientDTO.getDireccion(),
-            patientDTO.getCreado_en()
-        );
+        const paciente = new Patient({
+            id_paciente: id,
+            nombres: patientDTO.getNombres(),
+            apellidos: patientDTO.getApellidos(),
+            fecha_nacimiento: patientDTO.getFecha_nacimiento(),
+            sexo: patientDTO.getSexo(),
+            identificacion: patientDTO.getIdentificacion(),
+            telefono: patientDTO.getTelefono(),
+            email: patientDTO.getEmail(),
+            direccion: patientDTO.getDireccion(),
+            creado_en: patientDTO.getCreado_en()
+        });
 
-        return await this.adaptadorBDSalida.update(paciente);
+        return await this.patientCommandOutput.update(id, paciente);
     }
 
-    async delete(patientDTO) {
-        const id = patientDTO.getId_paciente();
-
+    async patch(id, patientDTO) {
         if (!id) {
             return {
                 estado: "error",
-                resultado: "Se requiere el id_paciente para eliminar el registro."
+                resultado: "Se requiere el ID para actualizar parcialmente el registro."
+            };
+        }
+        return await this.patientCommandOutput.patch(id, patientDTO);
+    }
+
+    async delete(id) {
+        if (!id) {
+            return {
+                estado: "error",
+                resultado: "Se requiere el ID del paciente para eliminar el registro."
             };
         }
 
-        const paciente = new Patient(id, null, null, null, null, null, null, null, null, null);
-
-        return await this.adaptadorBDSalida.delete(paciente);
+        return await this.patientCommandOutput.delete(id);
     }
 }
->>>>>>> 0d9d72c5b2672db31ec3ec3bbb62a6ad85fcf7b6

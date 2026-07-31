@@ -1,28 +1,22 @@
 import { Router } from 'express';
 import proxy from 'express-http-proxy';
-import { verifyToken } from '../middleware/authMiddleware.js';
+import { verifyToken, checkRole, ROLES } from '../middleware/authMiddleware.js';
 
 const router = Router();
 
-<<<<<<< HEAD
-// Docs
-router.use('/api-docs', proxy('http://ms-clinical:3004', { proxyReqPathResolver: (req) => `/api/v1/api-docs${req.url}` }));
-router.use('/docs/security', proxy('http://ms-security:3000', { proxyReqPathResolver: (req) => `/api/v1/api-docs${req.url}` }));
-router.use('/docs/personal', proxy('http://ms-personal:3001', { proxyReqPathResolver: (req) => `/api/v1/api-docs${req.url}` }));
-router.use('/docs/patients', proxy('http://ms-patients:3002', { proxyReqPathResolver: (req) => `/api/v1/api-docs${req.url}` }));
-router.use('/docs/clinical', proxy('http://ms-clinical:3004', { proxyReqPathResolver: (req) => `/api/v1/api-docs${req.url}` }));
-router.use('/docs/billing', proxy('http://ms-billing:3005', { proxyReqPathResolver: (req) => `/api/v1/api-docs${req.url}` }));
-
-// Auth (Público)
-router.use('/auth', proxy('http://ms-security:3000', { proxyReqPathResolver: (req) => `/api/v1/auth${req.url}` }));
-=======
 /**
- * Genera la configuración limpia para el proxy
- * @param {string} basePath - Ruta base de destino en el microservicio (ej. '/api/v1/patients')
+ * Genera la configuración limpia para el proxy y remueve barras finales extra
+ * @param {string} basePath - Ruta base de destino en el microservicio
  */
 const createProxyOptions = (basePath) => ({
     parseReqBody: false, 
-    proxyReqPathResolver: (req) => `${basePath}${req.url}`
+    proxyReqPathResolver: (req) => {
+        const fullPath = `${basePath}${req.url}`;
+        // Elimina la slash final sobrante que genera 404 en OpenAPI
+        return (fullPath.endsWith('/') && fullPath.length > 1) 
+            ? fullPath.slice(0, -1) 
+            : fullPath;
+    }
 });
 
 // ==========================================
@@ -36,53 +30,79 @@ router.use('/docs/clinical', proxy('http://ms-clinical:3004', createProxyOptions
 router.use('/docs/billing', proxy('http://ms-billing:3005', createProxyOptions('/api/v1/api-docs')));
 
 // ==========================================
-// RUTAS PÚBLICAS DE NEGOCIO
+// RUTAS DE AUTENTICACIÓN (MS-SECURITY)
 // ==========================================
-router.use('/auth', proxy('http://ms-security:3000', createProxyOptions('/api/v1/auth')));
->>>>>>> 0d9d72c5b2672db31ec3ec3bbb62a6ad85fcf7b6
+
+// Login es PÚBLICO
+router.post(
+    '/auth/login', 
+    proxy('http://ms-security:3000', createProxyOptions('/api/v1'))
+);
+
+// Registro (SOLO ADMINISTRADOR)
+router.post(
+    '/auth/register', 
+    verifyToken, 
+    checkRole(ROLES.ADMIN), 
+    proxy('http://ms-security:3000', createProxyOptions('/api/v1'))
+);
+
+router.post(
+    '/auth/registro', 
+    verifyToken, 
+    checkRole(ROLES.ADMIN), 
+    proxy('http://ms-security:3000', createProxyOptions('/api/v1'))
+);
 
 // ==========================================
-// RUTAS PROTEGIDAS (Requieren Token)
+// RUTAS PROTEGIDAS Y RESTRINGIDAS POR ROL
 // ==========================================
-<<<<<<< HEAD
 
-// ms-security
-router.use('/usuarios', verifyToken, proxy('http://ms-security:3000', { proxyReqPathResolver: (req) => `/api/v1/usuarios${req.url}` }));
-router.use('/rol', verifyToken, proxy('http://ms-security:3000', { proxyReqPathResolver: (req) => `/api/v1/rol${req.url}` }));
+// EXCLUSIVO ADMINISTRADOR (id_rol: 1)
+router.use('/usuarios', verifyToken, checkRole(ROLES.ADMIN), proxy('http://ms-security:3000', createProxyOptions('/api/v1/usuarios')));
+router.use('/rol', verifyToken, checkRole(ROLES.ADMIN), proxy('http://ms-security:3000', createProxyOptions('/api/v1/rol')));
+router.use('/personal', verifyToken, checkRole(ROLES.ADMIN), proxy('http://ms-personal:3001', createProxyOptions('/api/v1/personal')));
 
-// ms-patients
-router.use('/patient', verifyToken, proxy('http://ms-patients:3002', { proxyReqPathResolver: (req) => `/api/v1/patient${req.url}` }));
+// Mapeo en español para especialidad -> microservicio /specialty
+router.use('/especialidad', verifyToken, checkRole(ROLES.ADMIN), proxy('http://ms-personal:3001', createProxyOptions('/api/v1/specialty')));
+router.use('/specialty', verifyToken, checkRole(ROLES.ADMIN), proxy('http://ms-personal:3001', createProxyOptions('/api/v1/specialty')));
 
-// ms-personal
-router.use('/personal', verifyToken, proxy('http://ms-personal:3001', { proxyReqPathResolver: (req) => `/api/v1/personal${req.url}` }));
-router.use('/specialty', verifyToken, proxy('http://ms-personal:3001', { proxyReqPathResolver: (req) => `/api/v1/specialty${req.url}` }));
+// PACIENTES: Admin (1), Médico (2), Enfermería (3), Recepcionista (4)
+router.use('/patient', verifyToken, checkRole(ROLES.ADMIN, ROLES.MEDICO, ROLES.ENFERMERIA, ROLES.RECEPCIONISTA), proxy('http://ms-patients:3002', createProxyOptions('/api/v1/patient')));
 
-// ms-billing
-router.use('/factura', verifyToken, proxy('http://ms-billing:3005', { proxyReqPathResolver: (req) => `/api/v1/factura${req.url}` }));
-router.use('/detalleFactura', verifyToken, proxy('http://ms-billing:3005', { proxyReqPathResolver: (req) => `/api/v1/detalleFactura${req.url}` }));
-router.use('/servicio', verifyToken, proxy('http://ms-billing:3005', { proxyReqPathResolver: (req) => `/api/v1/servicio${req.url}` }));
-
-// ms-clinical
-const clinicalRoutes = [
-    'consulta', 'consultorio', 'historiaClinica', 'examen', 'receta',
-    'detalleReceta', 'medicamento', 'cirugia', 'quirofano',
-    'ingresoHospitalario', 'habitacion', 'cama'
+// CLINICAL / CONSULTAS: Admin (1), Médico (2), Enfermería (3)
+const clinicalMiddleware = [verifyToken, checkRole(ROLES.ADMIN, ROLES.MEDICO, ROLES.ENFERMERIA)];
+const clinicalEntities = [
+    '/consultas',
+    '/clinical',
+    '/cama',
+    '/cirugia',
+    '/consultorio',
+    '/detalleReceta',
+    '/examen',
+    '/habitacion',
+    '/historiaClinica',
+    '/ingresoHospitalario',
+    '/medicamento',
+    '/quirofano',
+    '/receta'
 ];
 
-clinicalRoutes.forEach(route => {
-    router.use(`/${route}`, verifyToken, proxy('http://ms-clinical:3004', { 
-        proxyReqPathResolver: (req) => `/api/v1/${route}${req.url}` 
-    }));
+clinicalEntities.forEach((route) => {
+    router.use(route, ...clinicalMiddleware, proxy('http://ms-clinical:3004', createProxyOptions(`/api/v1${route}`)));
 });
-=======
-router.use('/usuarios', verifyToken, proxy('http://ms-security:3000', createProxyOptions('/api/v1/usuarios')));
-router.use('/rol', verifyToken, proxy('http://ms-security:3000', createProxyOptions('/api/v1/rol')));
-router.use('/patients', verifyToken, proxy('http://ms-patients:3002', createProxyOptions('/api/v1/patients')));
-router.use('/personal', verifyToken, proxy('http://ms-personal:3001', createProxyOptions('/api/v1/personal')));
-router.use('/especialidad', verifyToken, proxy('http://ms-personal:3001', createProxyOptions('/api/v1/especialidad')));
-router.use('/consultas', verifyToken, proxy('http://ms-clinical:3004', createProxyOptions('/api/v1/consultas')));
-router.use('/clinical', verifyToken, proxy('http://ms-clinical:3004', createProxyOptions('/api/v1/clinical')));
-router.use('/billing', verifyToken, proxy('http://ms-billing:3005', createProxyOptions('/api/v1/billing')));
->>>>>>> 0d9d72c5b2672db31ec3ec3bbb62a6ad85fcf7b6
+
+// FACTURACIÓN (MS-BILLING): Admin (1), Recepcionista (4)
+const billingMiddleware = [verifyToken, checkRole(ROLES.ADMIN, ROLES.RECEPCIONISTA)];
+const billingEntities = [
+    '/billing',
+    '/factura',
+    '/detalleFactura',
+    '/servicio'
+];
+
+billingEntities.forEach((route) => {
+    router.use(route, ...billingMiddleware, proxy('http://ms-billing:3005', createProxyOptions(`/api/v1${route}`)));
+});
 
 export default router;
